@@ -1,21 +1,21 @@
 $(document).ready(function () {
-    let path = window.location.pathname.split("/").pop(); // contoh: 'dashboard' atau 'users'
+    // Ambil segmen kedua setelah "/admin", misalnya: '/admin/produk/detailProduk/1' → 'produk'
+    let segments = window.location.pathname.split("/"); // ['', 'admin', 'produk', 'detailProduk', '1']
+    let path = segments[2]; // 'produk'
 
     $('#sidebar a').each(function () {
-        let href = $(this).attr('href');
+        let href = $(this).attr('href'); // href sidebar: "produk", "dashboard", dst.
 
         if (href && href !== "javascript:void(0);" && href === path) {
             let parentLi = $(this).closest('li');
-            let grandParentLi = parentLi.closest('li.submenu'); // untuk submenu
+            let grandParentLi = parentLi.closest('li.submenu');
 
             if (grandParentLi.length) {
-                // Kalau ada parent li dengan class submenu (menu dengan submenu)
-                $(this).addClass('active'); // aktifkan link yang sesuai
-                grandParentLi.children('a').addClass('active subdrop'); // buka submenu induk
-                grandParentLi.children('ul').css('display', 'block'); // tampilkan submenu
+                $(this).addClass('active');
+                grandParentLi.children('a').addClass('active subdrop');
+                grandParentLi.children('ul').css('display', 'block');
             } else {
-                // Menu tanpa submenu (misal dashboard)
-                parentLi.addClass('active'); // aktifkan li langsung
+                parentLi.addClass('active');
             }
         }
     });

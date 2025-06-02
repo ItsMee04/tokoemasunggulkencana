@@ -27146,6 +27146,11 @@ table tbody td.action-table-data a .feather-trash-2 {
     width: 14px;
     height: 14px;
 }
+table tbody td.action-table-data a .feather-print {
+    color: #4c018a;
+    width: 14px;
+    height: 14px;
+}
 table tbody td.action-table-data a .feather-eye {
     width: 14px;
     height: 14px;
@@ -32175,6 +32180,9 @@ textarea {
 }
 .bank-action-btn a svg.feather-edit {
     color: #3577f1;
+}
+.bank-action-btn a svg.feather-print {
+    color: #4c018a;
 }
 .bank-action-btn a svg.feather-trash-2 {
     color: #ff0000;
