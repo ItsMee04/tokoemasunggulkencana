@@ -62,6 +62,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/diskon', function () {
         return view('pages.master.diskon');
     })->name('admin.diskon');
+
+    //Route View Kondisi
+    Route::get('/jenisproduk', function () {
+        return view('pages.master.jenisproduk');
+    })->name('admin.jenisproduk');
 });
 
 // // Owner Routes

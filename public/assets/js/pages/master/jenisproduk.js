@@ -6,17 +6,17 @@ $(document).ready(function () {
 
     //function refresh
     $(document).on("click", "#refreshButton", function () {
-        if (tableDiskon) {
-            tableDiskon.ajax.reload(null, false); // Reload data dari server
+        if (tableJenis) {
+            tableJenis.ajax.reload(null, false); // Reload data dari server
         }
-        showToastSuccess("Data Diskon Berhasil Direfresh")
+        showToastSuccess("Data Jenis Produk Berhasil Direfresh")
     });
 
-    //load data diskon
-    function getDiskon() {
+    //load data pegawai
+    function getJenisProduk() {
         // Datatable
-        if ($('#diskonTable').length > 0) {
-            tableDiskon = $('#diskonTable').DataTable({
+        if ($('#jenisProdukTable').length > 0) {
+            tableJenis = $('#jenisProdukTable').DataTable({
                 "scrollX": false, // Jangan aktifkan scroll horizontal secara paksa
                 "bFilter": true,
                 "sDom": 'fBtlpi',
@@ -32,7 +32,7 @@ $(document).ready(function () {
                     },
                 },
                 ajax: {
-                    url: `/api/diskon/getDiskon`, // Ganti dengan URL endpoint server Anda
+                    url: `/api/jenisproduk/getJenisProduk`, // Ganti dengan URL endpoint server Anda
                     type: 'GET', // Metode HTTP (GET/POST)
                     dataSrc: 'Data', // Jalur data di response JSON
                     beforeSend: function (xhr) {
@@ -42,7 +42,7 @@ $(document).ready(function () {
                         }
                     },
                     error: function (xhr) {
-                        const msg = xhr.responseJSON?.message || 'Gagal mengambil data diskon';
+                        const msg = xhr.responseJSON?.message || 'Gagal mengambil data jenis produk';
                         showToastError(msg);
                     }
                 },
@@ -50,18 +50,25 @@ $(document).ready(function () {
                     {
                         data: null, // Kolom nomor urut
                         render: function (data, type, row, meta) {
-                            return meta.row + 1 + "."; // Nomor urut dimulai dari 1
+                            return meta.row + 1; // Nomor urut dimulai dari 1
                         },
                         orderable: false,
                     },
                     {
-                        data: "diskon",
-                    },
-                    {
-                        data: "nilai",
+                        data: "image_jenis_produk", // Nama field dari API
                         render: function (data, type, row) {
-                            return data + " %"; // Menambahkan simbol persen di belakang
-                        }
+                            let timestamp = new Date().getTime(); // Gunakan timestamp untuk cache busting
+                            return `
+                            <div class="d-flex align-items-center">
+                                <a href="javascript:void(0);" class="avatar avatar-sm me-2">
+                                    <img src="/storage/icon/${data}?t=${timestamp}" alt="user">
+                                </a>
+                                <a href="javascript:void(0);">${row.jenis_produk}</a>
+                            </div>
+                        `;
+                        },
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'status',
@@ -108,23 +115,85 @@ $(document).ready(function () {
         }
     }
 
-    //panggul function getDiskon
-    getDiskon();
+    getJenisProduk();
+
+    function uploadImage(inputId, previewId) {
+        const inputFile = document.getElementById(inputId);
+        const previewContainer = document.getElementById(previewId);
+
+        inputFile.addEventListener("change", () => {
+            const file = inputFile.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                previewContainer.innerHTML = "";
+                const img = document.createElement("img");
+                img.src = reader.result;
+                img.style.width = "100%";
+                img.style.height = "100%";
+                img.style.objectFit = "cover"; // Agar rapi dalam div
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function editUploadImage(inputId, previewId) {
+        const inputFile = document.getElementById(inputId);
+        const previewContainer = $("#" + previewId); // Gunakan jQuery
+
+        inputFile.addEventListener("change", () => {
+            const file = inputFile.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                // Hapus background image
+                previewContainer.css("background-image", "");
+
+                // Masukkan gambar ke dalam preview div
+                previewContainer.html(""); // Hapus isi sebelumnya
+                const img = document.createElement("img");
+                img.src = reader.result;
+                img.style.width = "100%";
+                img.style.height = "100%";
+                img.style.objectFit = "cover"; // Agar rapi dalam div
+                previewContainer.append(img);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
 
     //ketika button tambah di tekan
-    $("#btnTambahDiskon").on("click", function () {
-        $("#mdTambahDiskon").modal("show");
+    $("#btnTambahJenisProduk").on("click", function () {
+        // Panggil fungsi untuk setiap input gambar
+        uploadImage("imageJenisProduk", "imageJenisProdukPreview");
+        $("#mdTambahJenisProduk").modal("show");
     });
 
-    //ketika submit form tambah diskon
-    $("#formTambahDiskon").on("submit", function (event) {
+    // Ketika modal ditutup, reset semua field
+    $("#mdTambahJenisProduk").on("hidden.bs.modal", function () {
+        // Reset form input (termasuk gambar dan status)
+        $("#formTambahJenisProduk")[0].reset();
+        $("#imageJenisProdukPreview").empty();
+    });
+
+    // Fungsi untuk menangani submit form jenis produk
+    $("#formTambahJenisProduk").on("submit", function (event) {
         event.preventDefault(); // Mencegah form submit secara default
         // Ambil elemen input file
+        const fileInput = $("#imageJenisProduk")[0];
+        const file = fileInput.files[0];
         const token = localStorage.getItem('token');
         // Buat objek FormData
         const formData = new FormData(this);
+        formData.delete("imageJenisProduk"); // Hapus field 'image' bawaan form
+        formData.append("imageJenisProduk", file); // Tambahkan file baru
         $.ajax({
-            url: "/api/diskon/storeDiskon", // Endpoint Laravel untuk menyimpan pegawai
+            url: "/api/jenisproduk/storeJenisProduk", // Endpoint Laravel untuk menyimpan jenis produk
             type: "POST",
             data: formData,
             processData: false, // Agar data tidak diubah menjadi string
@@ -134,107 +203,123 @@ $(document).ready(function () {
             },
             success: function (response) {
                 showToastSuccess(response.message)
-                $("#mdTambahDiskon").modal("hide"); // Tutup modal
-                tableDiskon.ajax.reload(null, false); // Reload data dari server
+                $("#mdTambahJenisProduk").modal("hide"); // Tutup modal
+                tableJenis.ajax.reload(null, false);
             },
             error: function (xhr) {
-                const errors = xhr.responseJSON?.errors;
-                if (errors) {
-                    let errorList = "<ul style='text-align:left;'>"; // opsional: rata kiri
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    const errors = xhr.responseJSON.errors;
+                    let errorList = "<ul style='text-align: left; padding-left: 20px;'>";
+
                     for (let key in errors) {
-                        errorList += `<li>${errors[key][0]}</li>`;
+                        if (errors.hasOwnProperty(key)) {
+                            errorList += `<li><span class="text-danger ms-1">* ${errors[key][0]}</span></li>`;
+                        }
                     }
+
                     errorList += "</ul>";
 
                     showToastError(errorList)
-                } else {
-                    const message = xhr.responseJSON?.message || "Terjadi kesalahan saat memproses permintaan.";
-                    showToastError(message)
-                }
-            }
-        });
-    });
 
-    // Ketika modal ditutup, reset semua field
-    $("#mdTambahDiskon").on("hidden.bs.modal", function () {
-        // Reset form input (termasuk gambar dan status)
-        $("#formTambahDiskon")[0].reset();
+                } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                    showToastError(xhr.responseJSON.message)
+                } else {
+                    showToastError("Tidak dapat memproses permintaan. Silakan coba lagi")
+                }
+            },
+        });
     });
 
     //ketika button edit di tekan
     $(document).on("click", ".btn-edit", function () {
-        const diskonID = $(this).data("id");
+        const jenisprodukID = $(this).data("id");
         const token = localStorage.getItem('token');
         $.ajax({
-            url: `/api/diskon/getDiskonByID/${diskonID}`, // Endpoint untuk mendapatkan data pegawai
+            url: `/api/jenisproduk/getJenisProdukByID/${jenisprodukID}`, // Endpoint untuk mendapatkan data pegawai
             type: "GET",
             headers: {
                 'Authorization': 'Bearer ' + token
             },
             success: function (response) {
+                editUploadImage("editImageJenisProduk", "editImageJenisProdukPreview");
                 // Ambil data pertama
                 let data = response.Data[0];
 
-                // Isi modal dengan data diskon
+                // Isi modal dengan data pegawai
                 $("#editid").val(data.id);
-                $("#editdiskon").val(data.diskon);
-                $("#editnilai").val(data.nilai);
+                $("#editjenisproduk").val(data.jenis_produk);
+
+                // Update preview gambar dengan background-image
+                let imageSrc = data.image_jenis_produk
+                    ? `/storage/icon/${data.image_jenis_produk}`
+                    : `/assets/img/notfound.png`;
+
+                $("#editImageJenisProdukPreview").css({
+                    "background-image": `url('${imageSrc}')`,
+                    "background-size": "cover",
+                    "background-position": "center",
+                });
 
                 // Tampilkan modal edit
-                $("#mdEditDiskon").modal("show");
+                $("#mdEditJenisProduk").modal("show");
             },
             error: function () {
-                showToastError("Tidak dapat mengambil data diskon.")
+                showToastError("Tidak dapat memproses permintaan. Silakan coba lagi")
             },
         });
     });
 
     // Ketika modal ditutup, reset semua field
-    $("#mdEditDiskon").on("hidden.bs.modal", function () {
+    $("#mdEditJenisProduk").on("hidden.bs.modal", function () {
         // Reset form input (termasuk gambar dan status)
-        $("#formEditDiskon")[0].reset();
+        $("#formEditJenisProduk")[0].reset();
+        $("#editImageJenisProdukPreview").empty();
     });
 
-    // // Kirim data ke server saat form disubmit
-    $(document).on("submit", "#formEditDiskon", function (e) {
-        e.preventDefault(); // Mencegah form submit secara default
+    //kirim data ke server <i class=""></i>
+    $("#formEditJenisProduk").on("submit", function (event) {
+        event.preventDefault(); // Mencegah form submit secara default
 
         // Buat objek FormData
         const formData = new FormData(this);
         // Ambil ID dari form
-        const idDiskon = formData.get("id"); // Mengambil nilai input dengan name="id"
+        const idJenisProduk = formData.get("id"); // Mengambil nilai input dengan name="id"
         const token = localStorage.getItem('token');
-        // Kirim data ke server menggunakan AJAX
         $.ajax({
-            url: `/api/diskon/updateDiskon/${idDiskon}`, // URL untuk mengupdate data pegawai
-            type: "POST", // Gunakan metode POST (atau PATCH jika route mendukung)
-            data: formData, // Gunakan FormData
-            processData: false, // Jangan proses FormData sebagai query string
-            contentType: false, // Jangan set Content-Type secara manual
+            url: `/api/jenisproduk/updateJenisProduk/${idJenisProduk}`, // Endpoint Laravel untuk menyimpan pegawai
+            type: "POST",
+            data: formData,
+            processData: false, // Agar data tidak diubah menjadi string
+            contentType: false, // Agar header Content-Type otomatis disesuaikan
             headers: {
                 'Authorization': 'Bearer ' + token
             },
             success: function (response) {
-                // Tampilkan toast sukses
                 showToastSuccess(response.message)
-                $("#mdEditDiskon").modal("hide"); // Tutup modal
-                tableDiskon.ajax.reload(null, false); // Reload data dari server
+                $("#mdEditJenisProduk").modal("hide"); // Tutup modal
+                tableJenis.ajax.reload(null, false);
             },
             error: function (xhr) {
-                const errors = xhr.responseJSON?.errors;
-                if (errors) {
-                    let errorList = "<ul style='text-align:left;'>"; // opsional: rata kiri
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    const errors = xhr.responseJSON.errors;
+                    let errorList = "<ul style='text-align: left; padding-left: 20px;'>";
+
                     for (let key in errors) {
-                        errorList += `<li>${errors[key][0]}</li>`;
+                        if (errors.hasOwnProperty(key)) {
+                            errorList += `<li><span class="text-danger ms-1">* ${errors[key][0]}</span></li>`;
+                        }
                     }
+
                     errorList += "</ul>";
 
                     showToastError(errorList)
+
+                } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                    showToastError(xhr.responseJSON.message)
                 } else {
-                    const message = xhr.responseJSON?.message || "Terjadi kesalahan saat memproses permintaan.";
-                    showToastError(message)
+                    showToastError("Tidak dapat memproses permintaan. Silakan coba lagi")
                 }
-            }
+            },
         });
     });
 
@@ -254,7 +339,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Kirim permintaan hapus (gunakan itemId)
-                fetch(`/api/diskon/deleteDiskon/${deleteID}`, {
+                fetch(`/api/jenisproduk/deleteJenisProduk/${deleteID}`, {
                     method: "DELETE",
                     headers: {
                         'Authorization': 'Bearer ' + token
@@ -265,7 +350,7 @@ $(document).ready(function () {
                             if (response.ok) {
                                 showToastSuccess(data.message || "Data berhasil dihapus.");
                                 // Reload DataTables (misal pakai tableJabatan)
-                                tableKondisi.ajax.reload(null, false);
+                                tableJenis.ajax.reload(null, false);
                             } else {
                                 showToastError(data.message || "Terjadi kesalahan saat menghapus data.");
                             }
