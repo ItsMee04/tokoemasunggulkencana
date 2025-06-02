@@ -6,17 +6,17 @@ $(document).ready(function () {
 
     //function refresh
     $(document).on("click", "#refreshButton", function () {
-        if (tableKondisi) {
-            tableKondisi.ajax.reload(null, false); // Reload data dari server
+        if (tableDiskon) {
+            tableDiskon.ajax.reload(null, false); // Reload data dari server
         }
-        showToastSuccess("Data Kondisi Berhasil Direfresh")
+        showToastSuccess("Data Diskon Berhasil Direfresh")
     });
 
-    //load data kondisi
-    function getKondisi() {
+    //load data diskon
+    function getDiskon() {
         // Datatable
-        if ($('#kondisiTable').length > 0) {
-            tableKondisi = $('#kondisiTable').DataTable({
+        if ($('#diskonTable').length > 0) {
+            tableDiskon = $('#diskonTable').DataTable({
                 "scrollX": false, // Jangan aktifkan scroll horizontal secara paksa
                 "bFilter": true,
                 "sDom": 'fBtlpi',
@@ -32,7 +32,7 @@ $(document).ready(function () {
                     },
                 },
                 ajax: {
-                    url: `/api/kondisi/getKondisi`, // Ganti dengan URL endpoint server Anda
+                    url: `/api/diskon/getDiskon`, // Ganti dengan URL endpoint server Anda
                     type: 'GET', // Metode HTTP (GET/POST)
                     dataSrc: 'Data', // Jalur data di response JSON
                     beforeSend: function (xhr) {
@@ -50,12 +50,18 @@ $(document).ready(function () {
                     {
                         data: null, // Kolom nomor urut
                         render: function (data, type, row, meta) {
-                            return meta.row + 1; // Nomor urut dimulai dari 1
+                            return meta.row + 1 + "."; // Nomor urut dimulai dari 1
                         },
                         orderable: false,
                     },
                     {
-                        data: "kondisi",
+                        data: "diskon",
+                    },
+                    {
+                        data: "nilai",
+                        render: function (data, type, row) {
+                            return data + " %"; // Menambahkan simbol persen di belakang
+                        }
                     },
                     {
                         data: 'status',
@@ -102,23 +108,23 @@ $(document).ready(function () {
         }
     }
 
-    //panggul function getKondisi
-    getKondisi();
+    //panggul function getDiskon
+    getDiskon();
 
     //ketika button tambah di tekan
-    $("#btnTambahKondisi").on("click", function () {
-        $("#mdTambahKondisi").modal("show");
+    $("#btnTambahDiskon").on("click", function () {
+        $("#mdTambahDiskon").modal("show");
     });
 
-    //ketika submit form tambah kondisi
-    $("#formTambahKondisi").on("submit", function (event) {
+    //ketika submit form tambah diskon
+    $("#formTambahDiskon").on("submit", function (event) {
         event.preventDefault(); // Mencegah form submit secara default
         // Ambil elemen input file
         const token = localStorage.getItem('token');
         // Buat objek FormData
         const formData = new FormData(this);
         $.ajax({
-            url: "/api/kondisi/storeKondisi", // Endpoint Laravel untuk menyimpan pegawai
+            url: "/api/diskon/storeDiskon", // Endpoint Laravel untuk menyimpan pegawai
             type: "POST",
             data: formData,
             processData: false, // Agar data tidak diubah menjadi string
@@ -128,8 +134,8 @@ $(document).ready(function () {
             },
             success: function (response) {
                 showToastSuccess(response.message)
-                $("#mdTambahKondisi").modal("hide"); // Tutup modal
-                tableKondisi.ajax.reload(null, false); // Reload data dari server
+                $("#mdTambahDiskon").modal("hide"); // Tutup modal
+                tableDiskon.ajax.reload(null, false); // Reload data dari server
             },
             error: function (xhr) {
                 const errors = xhr.responseJSON?.errors;
@@ -145,22 +151,22 @@ $(document).ready(function () {
                     const message = xhr.responseJSON?.message || "Terjadi kesalahan saat memproses permintaan.";
                     showToastError(message)
                 }
-            },
+            }
         });
     });
 
     // Ketika modal ditutup, reset semua field
-    $("#mdTambahKondisi").on("hidden.bs.modal", function () {
+    $("#mdTambahDiskon").on("hidden.bs.modal", function () {
         // Reset form input (termasuk gambar dan status)
-        $("#formTambahKondisi")[0].reset();
+        $("#formTambahDiskon")[0].reset();
     });
 
     //ketika button edit di tekan
     $(document).on("click", ".btn-edit", function () {
-        const kondisiID = $(this).data("id");
+        const diskonID = $(this).data("id");
         const token = localStorage.getItem('token');
         $.ajax({
-            url: `/api/kondisi/getKondisiByID/${kondisiID}`, // Endpoint untuk mendapatkan data pegawai
+            url: `/api/diskon/getDiskonByID/${diskonID}`, // Endpoint untuk mendapatkan data pegawai
             type: "GET",
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -169,37 +175,38 @@ $(document).ready(function () {
                 // Ambil data pertama
                 let data = response.Data[0];
 
-                // Isi modal dengan data pegawai
+                // Isi modal dengan data diskon
                 $("#editid").val(data.id);
-                $("#editkondisi").val(data.kondisi);
+                $("#editdiskon").val(data.diskon);
+                $("#editnilai").val(data.nilai);
 
                 // Tampilkan modal edit
-                $("#mdEditKondisi").modal("show");
+                $("#mdEditDiskon").modal("show");
             },
             error: function () {
-                showToastError("Tidak dapat mengambil data kondisi.")
+                showToastError("Tidak dapat mengambil data diskon.")
             },
         });
     });
 
     // Ketika modal ditutup, reset semua field
-    $("#mdEditKondisi").on("hidden.bs.modal", function () {
+    $("#mdEditDiskon").on("hidden.bs.modal", function () {
         // Reset form input (termasuk gambar dan status)
-        $("#formEditKondisi")[0].reset();
+        $("#formEditDiskon")[0].reset();
     });
 
     // // Kirim data ke server saat form disubmit
-    $(document).on("submit", "#formEditKondisi", function (e) {
+    $(document).on("submit", "#formEditDiskon", function (e) {
         e.preventDefault(); // Mencegah form submit secara default
 
         // Buat objek FormData
         const formData = new FormData(this);
         // Ambil ID dari form
-        const idKondisi = formData.get("id"); // Mengambil nilai input dengan name="id"
+        const idDiskon = formData.get("id"); // Mengambil nilai input dengan name="id"
         const token = localStorage.getItem('token');
         // Kirim data ke server menggunakan AJAX
         $.ajax({
-            url: `/api/kondisi/updateKondisi/${idKondisi}`, // URL untuk mengupdate data pegawai
+            url: `/api/diskon/updateDiskon/${idDiskon}`, // URL untuk mengupdate data pegawai
             type: "POST", // Gunakan metode POST (atau PATCH jika route mendukung)
             data: formData, // Gunakan FormData
             processData: false, // Jangan proses FormData sebagai query string
@@ -210,8 +217,8 @@ $(document).ready(function () {
             success: function (response) {
                 // Tampilkan toast sukses
                 showToastSuccess(response.message)
-                $("#mdEditKondisi").modal("hide"); // Tutup modal
-                tableKondisi.ajax.reload(null, false); // Reload data dari server
+                $("#mdEditDiskon").modal("hide"); // Tutup modal
+                tableDiskon.ajax.reload(null, false); // Reload data dari server
             },
             error: function (xhr) {
                 const errors = xhr.responseJSON?.errors;
@@ -227,7 +234,7 @@ $(document).ready(function () {
                     const message = xhr.responseJSON?.message || "Terjadi kesalahan saat memproses permintaan.";
                     showToastError(message)
                 }
-            },
+            }
         });
     });
 
@@ -238,7 +245,7 @@ $(document).ready(function () {
         // SweetAlert2 untuk konfirmasi
         Swal.fire({
             title: "Apakah Anda yakin?",
-            text: "Data ini akan dihapus !",
+            text: "Data ini akan dihapus!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Ya, hapus!",
@@ -247,7 +254,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Kirim permintaan hapus (gunakan itemId)
-                fetch(`/api/kondisi/deleteKondisi/${deleteID}`, {
+                fetch(`/api/diskon/deleteDiskon/${deleteID}`, {
                     method: "DELETE",
                     headers: {
                         'Authorization': 'Bearer ' + token

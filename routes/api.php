@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Master\DiskonController;
 use App\Http\Controllers\Master\JabatanController;
 use App\Http\Controllers\Master\KondisiController;
 use App\Http\Controllers\Master\PegawaiController;
@@ -56,6 +57,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('kondisi/getKondisiByID/{id}', [KondisiController::class, 'getKondisiByID']);
     Route::post('kondisi/updateKondisi/{id}', [KondisiController::class, 'updateKondisi']);
     Route::delete('kondisi/deleteKondisi/{id}', [KondisiController::class, 'deletekondisi']);
+
+    //API DISKON
+    Route::get('diskon/getDiskon', [DiskonController::class, 'getDiskon']);
+    Route::post('diskon/storeDiskon', [DiskonController::class, 'storeDiskon']);
+    Route::get('diskon/getDiskonByID/{id}', [DiskonController::class, 'getDiskonByID']);
+    Route::post('diskon/updateDiskon/{id}', [DiskonController::class, 'updateDiskon']);
+    Route::delete('diskon/deleteDiskon/{id}', [DiskonController::class, 'deleteDiskon']);
 
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);
