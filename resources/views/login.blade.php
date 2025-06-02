@@ -95,7 +95,8 @@
     <!-- Toast JS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <!-- Custom JS -->
-    <script src="{{ asset('assets/js/Login/login.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/login/login.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/pages/customtoastfy.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/script.js') }}" type="text/javascript"></script>
 </body>
 

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Master\JabatanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,14 @@ use App\Http\Controllers\Auth\AuthController;
 |
 */
 
-Route::post('/pushlogin', [AuthController::class, 'login']);
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    //API JABATAN
+    Route::get('jabatan/getJabatan', [JabatanController::class, 'getJabatan']);
+    Route::post('jabatan/storeJabatan', [JabatanController::class, 'storeJabatan']);
+
+    //API LOGOUT
+    Route::post('/logout', [AuthController::class, 'logoutToken']);
+});

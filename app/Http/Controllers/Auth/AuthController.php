@@ -30,34 +30,38 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Username atau password salah!'
+                'message' => 'Username atau password salah!',
             ]);
         }
 
         if ($user->status != 1) {
             return response()->json([
                 'success' => false,
-                'message' => 'User Account Belum Aktif!'
+                'message' => 'User Account Belum Aktif!',
             ]);
         }
 
-        // Login user (untuk session)
+        // Hapus token lama (opsional, untuk mencegah spam token)
+        $user->tokens()->delete();
+
+        // Login user untuk sesi (web guard)
         Auth::login($user);
 
-        // Buat token baru
+        // Buat token baru untuk API guard
         $token = $user->createToken('authToken')->plainTextToken;
 
-        // // Ambil data pegawai
-        $pegawai = Pegawai::where('id', $user->pegawai_id)->first();
-        $jabatan = Jabatan::where('id', $pegawai->jabatan_id)->first()->jabatan;
-        $role = Role::where('id', $user->role_id)->first()->role;
+        // Ambil data pegawai
+        $pegawai = Pegawai::find($user->pegawai_id);
+        $jabatan = $pegawai && $pegawai->jabatan_id ? Jabatan::find($pegawai->jabatan_id)?->jabatan : null;
+        $role = Role::find($user->role_id)?->role;
 
-        Session::put('nama', $pegawai->nama);
-        Session::put('jabatan', $jabatan);
-        Session::put('role', $role);
-        Session::put('image', $pegawai->image_pegawai);
+        // Simpan ke session (untuk akses di web)
+        Session::put('nama', $pegawai->nama ?? '-');
+        Session::put('jabatan', $jabatan ?? '-');
+        Session::put('role', $role ?? '-');
+        Session::put('image', $pegawai->image_pegawai ?? 'default.png');
 
-        // Tentukan redirect berdasarkan role
+        // Redirect berdasarkan role
         if ($role === 'ADMIN') {
             $redirectUrl = url('/admin/dashboard');
         } elseif ($role === 'OWNER') {
@@ -73,7 +77,29 @@ class AuthController extends Controller
             'message' => 'Login Berhasil',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'redirect' => $redirectUrl
+            'redirect' => $redirectUrl,
         ]);
+    }
+
+    public function logoutSession(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login')->with('success-message', 'Logout Berhasil');
+    }
+
+    public function logoutToken(Request $request)
+    {
+        $user = $request->user();
+
+        $token = $user->currentAccessToken();
+
+        if ($token && get_class($token) !== \Laravel\Sanctum\TransientToken::class) {
+            $token->delete(); // hapus token dari database
+        }
+
+        return response()->json(['message' => 'Logout token berhasil']);
     }
 }

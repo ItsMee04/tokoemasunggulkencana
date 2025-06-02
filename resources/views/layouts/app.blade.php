@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>UNGGUL KENCANA | @yield('title')</title>
 
     <!-- Favicon -->
@@ -25,6 +26,12 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
 
+    <!-- Toast CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <!-- DataTable CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
@@ -40,12 +47,10 @@
         <!-- Header -->
         @include('components.header')
 
-        <!-- Sidebar -->
-        @include('components.header')
-
         @php
-            $role = auth()->user()->role;
+            $role = auth()->user()->role->role;
         @endphp
+
         @if ($role === 'ADMIN')
             @include('components.sidebar-admin')
         @elseif ($role === 'OWNER')
@@ -57,6 +62,8 @@
         @yield('content')
     </div>
     <!-- /Main Wrapper -->
+
+    <div data-flash-error="{{ session('error') ?? '' }}" data-flash-success="{{ session('success') ?? '' }}"></div>
 
     <!-- jQuery -->
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}" type="text/javascript"></script>
@@ -78,9 +85,18 @@
     <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/plugins/sweetalert/sweetalerts.min.js') }}" type="text/javascript"></script>
 
+    <!-- Toast JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/pages/customtoastfy.js') }}"></script>
+
+    <!-- DataTable JS -->
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}" type="text/javascript"></script>
+
     <!-- Custom JS -->
-    <script src="{{ asset('assets/js/theme-script.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/script.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/pages/index.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/pages/customtoastfy.js') }}" type="text/javascript"></script>
 </body>
 
 </html>
