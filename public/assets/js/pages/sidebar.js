@@ -1,27 +1,22 @@
-$(document).ready(function(){
-    $(document).ready(function() {
-        let path = window.location.pathname;
-        let segments = path.split('/');
-        let rolePrefix = segments[1]; // "admin" atau "owner"
-        let secondSegment = segments[2]; // Misalnya "nampan"
+$(document).ready(function () {
+    let path = window.location.pathname.split("/").pop(); // contoh: 'dashboard' atau 'users'
 
-        $('#sidebar a').each(function() {
-            let linkHref = $(this).attr('href'); // misal: "/admin/nampan"
+    $('#sidebar a').each(function () {
+        let href = $(this).attr('href');
 
-            // Cek apakah link mengandung role + segment kedua
-            let expectedHref = '/' + rolePrefix + '/' + secondSegment;
+        if (href && href !== "javascript:void(0);" && href === path) {
+            let parentLi = $(this).closest('li');
+            let grandParentLi = parentLi.closest('li.submenu'); // untuk submenu
 
-            if (linkHref === expectedHref) {
-                $(this).addClass('active');
-                $(this).parent('li').addClass('active');
-
-                // Buka parent submenu jika ada
-                let closestSubmenu = $(this).closest('ul');
-                if (closestSubmenu.length > 0 && closestSubmenu.parent('li').length > 0) {
-                    closestSubmenu.css('display', 'block');
-                    // Tidak tambahkan 'subdrop' jika tidak diperlukan
-                }
+            if (grandParentLi.length) {
+                // Kalau ada parent li dengan class submenu (menu dengan submenu)
+                $(this).addClass('active'); // aktifkan link yang sesuai
+                grandParentLi.children('a').addClass('active subdrop'); // buka submenu induk
+                grandParentLi.children('ul').css('display', 'block'); // tampilkan submenu
+            } else {
+                // Menu tanpa submenu (misal dashboard)
+                parentLi.addClass('active'); // aktifkan li langsung
             }
-        });
+        }
     });
-})
+});

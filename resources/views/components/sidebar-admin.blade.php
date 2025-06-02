@@ -25,12 +25,26 @@
                                         class="menu-arrow"></span></b>
                             </a>
                             <ul>
-                                <li><a href="jabatan" data-menu-title="Jabatan"><span>Jabatan</span></a>
+                                <li>
+                                    <a href="jabatan" data-menu-title="Jabatan">
+                                        Jabatan
+                                    </a>
                                 </li>
-                                <li><a href="role" data-menu-title="Role"></i><span>Role</span></a>
+                                <li>
+                                    <a href="role" data-menu-title="Role">
+                                        Role
+                                    </a>
                                 </li>
-                                <li><a href="pegawai" data-menu-title="Pegawai"><span>Pegawai</span></a></li>
-                                <li><a href="users" data-menu-title="Users"></i><span>Users</span></a></li>
+                                <li>
+                                    <a href="pegawai" data-menu-title="Pegawai">
+                                        Pegawai
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="users" data-menu-title="Users">
+                                        Users
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -39,23 +53,35 @@
                             </a>
                             <ul>
 
-                                <li><a href="/admin/kondisi" data-menu-title="Kondisi"></i><span>Kondisi</span></a>
-                                </li>
-                                <li><a href="/admin/diskon" data-menu-title="Diskon"></i><span>Diskon</span></a>
+                                <li>
+                                    <a href="kondisi" data-menu-title="Kondisi">
+                                        Kondisi
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="/admin/jenisproduk" data-menu-title="Jenis Produk"><span>Jenis
-                                            Produk</span></a>
+                                    <a href="diskon" data-menu-title="Diskon">
+                                        Diskon
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="/admin/produk" data-menu-title="Produk"><span>Produk</span></a>
+                                    <a href="jenisproduk" data-menu-title="Jenis Produk">
+                                        Jenis Produk
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="/admin/nampan" data-menu-title="Nampan"><span>Nampan</span></a>
+                                    <a href="produk" data-menu-title="Produk">
+                                        Produk
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="/admin/scanbarcode" data-menu-title="Scan Barcode"><span>Scan
-                                            Barcode</span></a>
+                                    <a href="nampan" data-menu-title="Nampan">
+                                        Nampan
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="scanbarcode" data-menu-title="Scan Barcode">
+                                        Scan Barcode
+                                    </a>
                                 </li>
                             </ul>
                         </li>

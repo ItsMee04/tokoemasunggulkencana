@@ -25,6 +25,8 @@ Route::middleware(['guest'])->group(function () {
     })->name('login');
     Route::post('/pushlogin', [AuthController::class, 'login']);
 });
+
+//ROUTE ADMIN
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     //Route View Dashboard
     Route::get('/dashboard', function () {
@@ -50,7 +52,13 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/users', function () {
         return view('pages.master.user');
     })->name('admin.user');
+
+    //Route View Kondisi
+    Route::get('/kondisi', function () {
+        return view('pages.master.kondisi');
+    })->name('admin.kondisi');
 });
+
 // // Owner Routes
 // Route::prefix('owner')->middleware(['auth', 'role:owner'])->group(function () {
 //     Route::get('/dashboard', [OwnerController::class, 'dashboard']);

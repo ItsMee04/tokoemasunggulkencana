@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     // Inisialisasi tooltip Bootstrap
     function initializeTooltip() {
         $('[data-bs-toggle="tooltip"]').tooltip();
@@ -7,17 +6,17 @@ $(document).ready(function () {
 
     //function refresh
     $(document).on("click", "#refreshButton", function () {
-        if (tableJabatan) {
-            tableJabatan.ajax.reload(null, false); // Reload data dari server
+        if (tableKondisi) {
+            tableKondisi.ajax.reload(null, false); // Reload data dari server
         }
-        showToastSuccess("Data Jabatan Berhasil Direfresh")
+        showToastSuccess("Data Kondisi Berhasil Direfresh")
     });
 
-    //load data jabatan
-    function getJabatan() {
+    //load data kondisi
+    function getKondisi() {
         // Datatable
-        if ($('#jabatanTable').length > 0) {
-            tableJabatan = $('#jabatanTable').DataTable({
+        if ($('#kondisiTable').length > 0) {
+            tableKondisi = $('#kondisiTable').DataTable({
                 "scrollX": false, // Jangan aktifkan scroll horizontal secara paksa
                 "bFilter": true,
                 "sDom": 'fBtlpi',
@@ -33,7 +32,7 @@ $(document).ready(function () {
                     },
                 },
                 ajax: {
-                    url: `/api/jabatan/getJabatan`, // Ganti dengan URL endpoint server Anda
+                    url: `/api/kondisi/getKondisi`, // Ganti dengan URL endpoint server Anda
                     type: 'GET', // Metode HTTP (GET/POST)
                     dataSrc: 'Data', // Jalur data di response JSON
                     beforeSend: function (xhr) {
@@ -43,7 +42,7 @@ $(document).ready(function () {
                         }
                     },
                     error: function (xhr) {
-                        const msg = xhr.responseJSON?.message || 'Gagal mengambil data jabatan';
+                        const msg = xhr.responseJSON?.message || 'Gagal mengambil data kondisi';
                         showToastError(msg);
                     }
                 },
@@ -56,7 +55,7 @@ $(document).ready(function () {
                         orderable: false,
                     },
                     {
-                        data: "jabatan",
+                        data: "kondisi",
                     },
                     {
                         data: 'status',
@@ -103,24 +102,23 @@ $(document).ready(function () {
         }
     }
 
-    //panggul function getJabatan
-    getJabatan();
+    //panggul function getKondisi
+    getKondisi();
 
     //ketika button tambah di tekan
-    $("#btnTambahJabatan").on("click", function () {
-        $("#mdTambahJabatan").modal("show");
+    $("#btnTambahKondisi").on("click", function () {
+        $("#mdTambahKondisi").modal("show");
     });
 
-    //ketika submit form tambah jabatan
-    $("#formTambahJabatan").on("submit", function (event) {
+    //ketika submit form tambah kondisi
+    $("#formTambahKondisi").on("submit", function (event) {
         event.preventDefault(); // Mencegah form submit secara default
         // Ambil elemen input file
-
+        const token = localStorage.getItem('token');
         // Buat objek FormData
         const formData = new FormData(this);
-        const token = localStorage.getItem('token');
         $.ajax({
-            url: "/api/jabatan/storeJabatan", // Endpoint Laravel untuk menyimpan pegawai
+            url: "/api/kondisi/storeKondisi", // Endpoint Laravel untuk menyimpan pegawai
             type: "POST",
             data: formData,
             processData: false, // Agar data tidak diubah menjadi string
@@ -130,9 +128,8 @@ $(document).ready(function () {
             },
             success: function (response) {
                 showToastSuccess(response.message)
-                $("#mdTambahJabatan").modal("hide"); // Tutup modal
-                $("#formTambahJabatan")[0].reset(); // Reset form
-                tableJabatan.ajax.reload(null, false); // Reload data dari server
+                $("#mdTambahKondisi").modal("hide"); // Tutup modal
+                tableKondisi.ajax.reload(null, false); // Reload data dari server
             },
             error: function (xhr) {
                 const errors = xhr.responseJSON?.errors;
@@ -153,17 +150,17 @@ $(document).ready(function () {
     });
 
     // Ketika modal ditutup, reset semua field
-    $("#mdTambahJabatan").on("hidden.bs.modal", function () {
+    $("#mdTambahKondisi").on("hidden.bs.modal", function () {
         // Reset form input (termasuk gambar dan status)
-        $("#formTambahJabatan")[0].reset();
+        $("#formTambahKondisi")[0].reset();
     });
 
     //ketika button edit di tekan
     $(document).on("click", ".btn-edit", function () {
-        const jabatanID = $(this).data("id");
+        const kondisiID = $(this).data("id");
         const token = localStorage.getItem('token');
         $.ajax({
-            url: `/api/jabatan/getJabatanByID/${jabatanID}`, // Endpoint untuk mendapatkan data pegawai
+            url: `/api/kondisi/getKondisiByID/${kondisiID}`, // Endpoint untuk mendapatkan data pegawai
             type: "GET",
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -174,35 +171,39 @@ $(document).ready(function () {
 
                 // Isi modal dengan data pegawai
                 $("#editid").val(data.id);
-                $("#editjabatan").val(data.jabatan);
+                $("#editkondisi").val(data.kondisi);
 
                 // Tampilkan modal edit
-                $("#mdEditJabatan").modal("show");
+                $("#mdEditKondisi").modal("show");
             },
             error: function () {
-                showToastError("Tidak dapat mengambil data jabatan")
+                Swal.fire(
+                    "Gagal!",
+                    "Tidak dapat mengambil data kondisi.",
+                    "error"
+                );
             },
         });
     });
 
     // Ketika modal ditutup, reset semua field
-    $("#mdEditJabatan").on("hidden.bs.modal", function () {
+    $("#mdEditKondisi").on("hidden.bs.modal", function () {
         // Reset form input (termasuk gambar dan status)
-        $("#formEditJabatan")[0].reset();
+        $("#formEditKondisi")[0].reset();
     });
 
     // // Kirim data ke server saat form disubmit
-    $(document).on("submit", "#formEditJabatan", function (e) {
+    $(document).on("submit", "#formEditKondisi", function (e) {
         e.preventDefault(); // Mencegah form submit secara default
 
         // Buat objek FormData
         const formData = new FormData(this);
         // Ambil ID dari form
-        const idJabatan = formData.get("id"); // Mengambil nilai input dengan name="id"
+        const idKondisi = formData.get("id"); // Mengambil nilai input dengan name="id"
         const token = localStorage.getItem('token');
         // Kirim data ke server menggunakan AJAX
         $.ajax({
-            url: `/api/jabatan/updateJabatan/${idJabatan}`, // URL untuk mengupdate data pegawai
+            url: `/api/kondisi/updateKondisi/${idKondisi}`, // URL untuk mengupdate data pegawai
             type: "POST", // Gunakan metode POST (atau PATCH jika route mendukung)
             data: formData, // Gunakan FormData
             processData: false, // Jangan proses FormData sebagai query string
@@ -213,8 +214,8 @@ $(document).ready(function () {
             success: function (response) {
                 // Tampilkan toast sukses
                 showToastSuccess(response.message)
-                $("#mdEditJabatan").modal("hide"); // Tutup modal
-                tableJabatan.ajax.reload(null, false); // Reload data dari server
+                $("#mdEditKondisi").modal("hide"); // Tutup modal
+                tableKondisi.ajax.reload(null, false); // Reload data dari server
             },
             error: function (xhr) {
                 const errors = xhr.responseJSON?.errors;
@@ -238,10 +239,10 @@ $(document).ready(function () {
     $(document).on("click", ".confirm-text", function () {
         const deleteID = $(this).data("id");
         const token = localStorage.getItem('token');
-
+        // SweetAlert2 untuk konfirmasi
         Swal.fire({
             title: "Apakah Anda yakin?",
-            text: "Data ini akan dihapus secara permanen!",
+            text: "Data ini akan dihapus !",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Ya, hapus!",
@@ -249,11 +250,11 @@ $(document).ready(function () {
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/api/jabatan/deleteJabatan/${deleteID}`, {
+                // Kirim permintaan hapus (gunakan itemId)
+                fetch(`/api/kondisi/deleteKondisi/${deleteID}`, {
                     method: "DELETE",
                     headers: {
-                        'Authorization': 'Bearer ' + token,
-                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
                     },
                 })
                     .then((response) => {
@@ -261,17 +262,17 @@ $(document).ready(function () {
                             if (response.ok) {
                                 showToastSuccess(data.message || "Data berhasil dihapus.");
                                 // Reload DataTables (misal pakai tableJabatan)
-                                tableJabatan.ajax.reload(null, false);
+                                tableKondisi.ajax.reload(null, false);
                             } else {
                                 showToastError(data.message || "Terjadi kesalahan saat menghapus data.");
                             }
                         });
                     })
                     .catch((error) => {
-                        console.error("Error:", error);
                         showToastError("Terjadi kesalahan dalam penghapusan data.");
                     });
             } else {
+                // Jika batal, beri tahu pengguna
                 showToastError("Dibatalkan, Data tidak dihapus.");
             }
         });
