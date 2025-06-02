@@ -10,6 +10,8 @@ use App\Http\Controllers\Master\ProdukController;
 use App\Http\Controllers\Master\JabatanController;
 use App\Http\Controllers\Master\KondisiController;
 use App\Http\Controllers\Master\PegawaiController;
+use App\Http\Controllers\Master\SuplierController;
+use App\Http\Controllers\Master\PelangganController;
 use App\Http\Controllers\Master\JenisProdukController;
 
 /*
@@ -80,6 +82,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('produk/getProdukByID/{id}', [ProdukController::class, 'getProdukByID']);
     Route::post('produk/updateProduk/{id}', [ProdukController::class, 'updateProduk']);
     Route::delete('produk/deleteProduk/{id}', [ProdukController::class, 'deleteProduk']);
+
+
+    //API PELANGGAN
+    Route::get('pelanggan/getPelanggan', [PelangganController::class, 'getPelanggan']);
+    Route::post('pelanggan/storePelanggan', [PelangganController::class, 'storePelanggan']);
+    Route::get('pelanggan/getPelangganByID/{id}', [PelangganController::class, 'getPelangganByID']);
+    Route::post('pelanggan/updatePelanggan/{id}', [PelangganController::class, 'updatePelanggan']);
+    Route::delete('pelanggan/deletePelanggan/{id}', [PelangganController::class, 'deletePelanggan']);
+
+    //API SUPLIER
+    Route::get('suplier/getSuplier', [SuplierController::class, 'getSuplier']);
+    Route::post('suplier/storeSuplier', [SuplierController::class, 'storeSuplier']);
+    Route::get('suplier/getSuplierByID/{id}', [SuplierController::class, 'getSuplierByID']);
+    Route::post('suplier/updateSuplier/{id}', [SuplierController::class, 'updateSuplier']);
+    Route::delete('suplier/deleteSuplier/{id}', [SuplierController::class, 'deleteSuplier']);
 
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);

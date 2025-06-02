@@ -72,6 +72,17 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/produk', function () {
         return view('pages.master.produk');
     })->name('admin.produk');
+
+
+    //Route View Pelanggan
+    Route::get('/pelanggan', function () {
+        return view('pages.master.pelanggan');
+    })->name('admin.pelanggan');
+
+    //Route View Pelanggan
+    Route::get('/suplier', function () {
+        return view('pages.master.suplier');
+    })->name('admin.suplier');
 });
 
 // // Owner Routes

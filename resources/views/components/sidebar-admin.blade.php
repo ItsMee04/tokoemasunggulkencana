@@ -92,11 +92,11 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="/admin/pelanggan" data-menu-title="Pelanggan"></i><span>
+                                    <a href="pelanggan" data-menu-title="Pelanggan"></i><span>
                                             Pelanggan</span></a>
                                 </li>
                                 <li>
-                                    <a href="/admin/suplier" data-menu-title="Suplier"><span>
+                                    <a href="suplier" data-menu-title="Suplier"><span>
                                             Suplier</span></a>
                                 </li>
                             </ul>
