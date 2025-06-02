@@ -32,6 +32,9 @@
     <!-- DataTable CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
 
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
@@ -92,6 +95,9 @@
     <!-- DataTable JS -->
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}" type="text/javascript"></script>
+
+    <!-- Select2 JS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>
 
     <!-- Custom JS -->
     <script src="{{ asset('assets/js/script.js') }}" type="text/javascript"></script>

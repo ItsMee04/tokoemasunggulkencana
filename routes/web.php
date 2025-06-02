@@ -26,13 +26,30 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/pushlogin', [AuthController::class, 'login']);
 });
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
+    //Route View Dashboard
     Route::get('/dashboard', function () {
         return view('pages.dashboard.dashboard');
     })->name('admin.dashboard');
 
+    //Route View Jabatan
     Route::get('/jabatan', function () {
         return view('pages.master.jabatan');
     })->name('admin.jabatan');
+
+    //Route View Role
+    Route::get('/role', function () {
+        return view('pages.master.role');
+    })->name('admin.role');
+
+    //Route View Pegawai
+    Route::get('/pegawai', function () {
+        return view('pages.master.pegawai');
+    })->name('admin.pegawai');
+
+    //Route View User
+    Route::get('/users', function () {
+        return view('pages.master.user');
+    })->name('admin.user');
 });
 // // Owner Routes
 // Route::prefix('owner')->middleware(['auth', 'role:owner'])->group(function () {

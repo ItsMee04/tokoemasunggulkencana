@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     // Inisialisasi tooltip Bootstrap
     function initializeTooltip() {
         $('[data-bs-toggle="tooltip"]').tooltip();
@@ -7,17 +6,17 @@ $(document).ready(function () {
 
     //function refresh
     $(document).on("click", "#refreshButton", function () {
-        if (tableJabatan) {
-            tableJabatan.ajax.reload(null, false); // Reload data dari server
+        if (tableRole) {
+            tableRole.ajax.reload(null, false); // Reload data dari server
         }
-        showToastSuccess("Data Jabatan Berhasil Direfresh")
+        showToastSuccess("Data Role Berhasil Direfresh")
     });
 
     //load data jabatan
-    function getJabatan() {
+    function getRole() {
         // Datatable
-        if ($('#jabatanTable').length > 0) {
-            tableJabatan = $('#jabatanTable').DataTable({
+        if ($('#roleTable').length > 0) {
+            tableRole = $('#roleTable').DataTable({
                 "scrollX": false, // Jangan aktifkan scroll horizontal secara paksa
                 "bFilter": true,
                 "sDom": 'fBtlpi',
@@ -33,7 +32,7 @@ $(document).ready(function () {
                     },
                 },
                 ajax: {
-                    url: `/api/jabatan/getJabatan`, // Ganti dengan URL endpoint server Anda
+                    url: `/api/role/getRole`, // Ganti dengan URL endpoint server Anda
                     type: 'GET', // Metode HTTP (GET/POST)
                     dataSrc: 'Data', // Jalur data di response JSON
                     beforeSend: function (xhr) {
@@ -43,9 +42,10 @@ $(document).ready(function () {
                         }
                     },
                     error: function (xhr) {
-                        const msg = xhr.responseJSON?.message || 'Gagal mengambil data jabatan';
+                        const msg = xhr.responseJSON?.message || 'Gagal mengambil data role';
                         showToastError(msg);
                     }
+
                 },
                 columns: [
                     {
@@ -56,7 +56,7 @@ $(document).ready(function () {
                         orderable: false,
                     },
                     {
-                        data: "jabatan",
+                        data: "role",
                     },
                     {
                         data: 'status',
@@ -77,15 +77,15 @@ $(document).ready(function () {
                         className: "action-table-data",
                         render: function (data, type, row, meta) {
                             return `
-                            <div class="edit-delete-action">
-                                <a class="me-2 p-2 btn-edit" data-id="${row.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="EDIT DATA">
-                                    <i data-feather="edit" class="feather-edit"></i>
-                                </a>
-                                <a class="confirm-text p-2" data-id="${row.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="HAPUS DATA">
-                                    <i data-feather="trash-2" class="feather-trash-2"></i>
-                                </a>
-                            </div>
-                        `;
+                        <div class="edit-delete-action">
+                            <a class="me-2 p-2 btn-edit" data-id="${row.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="EDIT DATA">
+                                <i data-feather="edit" class="feather-edit"></i>
+                            </a>
+                            <a class="confirm-text p-2" data-id="${row.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="HAPUS DATA">
+                                <i data-feather="trash-2" class="feather-trash-2"></i>
+                            </a>
+                        </div>
+                    `;
                         }
                     }
                 ],
@@ -103,24 +103,22 @@ $(document).ready(function () {
         }
     }
 
-    //panggul function getJabatan
-    getJabatan();
+    getRole();
 
     //ketika button tambah di tekan
-    $("#btnTambahJabatan").on("click", function () {
-        $("#mdTambahJabatan").modal("show");
+    $("#btnTambahRole").on("click", function () {
+        $("#mdTambahRole").modal("show");
     });
 
     //ketika submit form tambah jabatan
-    $("#formTambahJabatan").on("submit", function (event) {
+    $("#formTambahRole").on("submit", function (event) {
         event.preventDefault(); // Mencegah form submit secara default
         // Ambil elemen input file
-
+        const token = localStorage.getItem('token');
         // Buat objek FormData
         const formData = new FormData(this);
-        const token = localStorage.getItem('token');
         $.ajax({
-            url: "/api/jabatan/storeJabatan", // Endpoint Laravel untuk menyimpan pegawai
+            url: "/api/role/storeRole", // Endpoint Laravel untuk menyimpan pegawai
             type: "POST",
             data: formData,
             processData: false, // Agar data tidak diubah menjadi string
@@ -130,9 +128,8 @@ $(document).ready(function () {
             },
             success: function (response) {
                 showToastSuccess(response.message)
-                $("#mdTambahJabatan").modal("hide"); // Tutup modal
-                $("#formTambahJabatan")[0].reset(); // Reset form
-                tableJabatan.ajax.reload(null, false); // Reload data dari server
+                $("#mdTambahRole").modal("hide"); // Tutup modal
+                tableRole.ajax.reload(null, false); // Reload data dari server
             },
             error: function (xhr) {
                 const errors = xhr.responseJSON?.errors;
@@ -153,17 +150,17 @@ $(document).ready(function () {
     });
 
     // Ketika modal ditutup, reset semua field
-    $("#mdTambahJabatan").on("hidden.bs.modal", function () {
+    $("#mdTambahRole").on("hidden.bs.modal", function () {
         // Reset form input (termasuk gambar dan status)
-        $("#formTambahJabatan")[0].reset();
+        $("#formTambahRole")[0].reset();
     });
 
     //ketika button edit di tekan
     $(document).on("click", ".btn-edit", function () {
-        const jabatanID = $(this).data("id");
+        const roleID = $(this).data("id");
         const token = localStorage.getItem('token');
         $.ajax({
-            url: `/api/jabatan/getJabatanByID/${jabatanID}`, // Endpoint untuk mendapatkan data pegawai
+            url: `/api/role/getRoleByID/${roleID}`, // Endpoint untuk mendapatkan data pegawai
             type: "GET",
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -174,35 +171,35 @@ $(document).ready(function () {
 
                 // Isi modal dengan data pegawai
                 $("#editid").val(data.id);
-                $("#editjabatan").val(data.jabatan);
+                $("#editrole").val(data.role);
 
                 // Tampilkan modal edit
-                $("#mdEditJabatan").modal("show");
+                $("#mdEditRole").modal("show");
             },
             error: function () {
-                showToastError("Tidak dapat mengambil data jabatan")
+                showToastError("Tidak dapat mengambil data role")
             },
         });
     });
 
     // Ketika modal ditutup, reset semua field
-    $("#mdEditJabatan").on("hidden.bs.modal", function () {
+    $("#mdEditRole").on("hidden.bs.modal", function () {
         // Reset form input (termasuk gambar dan status)
-        $("#formEditJabatan")[0].reset();
+        $("#formEditRole")[0].reset();
     });
 
     // // Kirim data ke server saat form disubmit
-    $(document).on("submit", "#formEditJabatan", function (e) {
+    $(document).on("submit", "#formEditRole", function (e) {
         e.preventDefault(); // Mencegah form submit secara default
 
         // Buat objek FormData
         const formData = new FormData(this);
         // Ambil ID dari form
-        const idJabatan = formData.get("id"); // Mengambil nilai input dengan name="id"
+        const idRole = formData.get("id"); // Mengambil nilai input dengan name="id"
         const token = localStorage.getItem('token');
         // Kirim data ke server menggunakan AJAX
         $.ajax({
-            url: `/api/jabatan/updateJabatan/${idJabatan}`, // URL untuk mengupdate data pegawai
+            url: `/api/role/updateRole/${idRole}`, // URL untuk mengupdate data pegawai
             type: "POST", // Gunakan metode POST (atau PATCH jika route mendukung)
             data: formData, // Gunakan FormData
             processData: false, // Jangan proses FormData sebagai query string
@@ -213,8 +210,8 @@ $(document).ready(function () {
             success: function (response) {
                 // Tampilkan toast sukses
                 showToastSuccess(response.message)
-                $("#mdEditJabatan").modal("hide"); // Tutup modal
-                tableJabatan.ajax.reload(null, false); // Reload data dari server
+                $("#mdEditRole").modal("hide"); // Tutup modal
+                tableRole.ajax.reload(null, false); // Reload data dari server
             },
             error: function (xhr) {
                 const errors = xhr.responseJSON?.errors;
@@ -238,7 +235,7 @@ $(document).ready(function () {
     $(document).on("click", ".confirm-text", function () {
         const deleteID = $(this).data("id");
         const token = localStorage.getItem('token');
-
+        // SweetAlert2 untuk konfirmasi
         Swal.fire({
             title: "Apakah Anda yakin?",
             text: "Data ini akan dihapus secara permanen!",
@@ -249,7 +246,8 @@ $(document).ready(function () {
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/api/jabatan/deleteJabatan/${deleteID}`, {
+                // Kirim permintaan hapus (gunakan itemId)
+                fetch(`/api/role/deleteRole/${deleteID}`, {
                     method: "DELETE",
                     headers: {
                         'Authorization': 'Bearer ' + token,
@@ -261,7 +259,7 @@ $(document).ready(function () {
                             if (response.ok) {
                                 showToastSuccess(data.message || "Data berhasil dihapus.");
                                 // Reload DataTables (misal pakai tableJabatan)
-                                tableJabatan.ajax.reload(null, false);
+                                tableRole.ajax.reload(null, false);
                             } else {
                                 showToastError(data.message || "Terjadi kesalahan saat menghapus data.");
                             }
@@ -272,6 +270,7 @@ $(document).ready(function () {
                         showToastError("Terjadi kesalahan dalam penghapusan data.");
                     });
             } else {
+                // Jika batal, beri tahu pengguna
                 showToastError("Dibatalkan, Data tidak dihapus.");
             }
         });
