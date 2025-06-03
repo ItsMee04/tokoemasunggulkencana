@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Master\RoleController;
 use App\Http\Controllers\Master\UserController;
 use App\Http\Controllers\Master\DiskonController;
+use App\Http\Controllers\Master\NampanController;
 use App\Http\Controllers\Master\ProdukController;
 use App\Http\Controllers\Master\JabatanController;
 use App\Http\Controllers\Master\KondisiController;
@@ -83,6 +84,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('produk/updateProduk/{id}', [ProdukController::class, 'updateProduk']);
     Route::delete('produk/deleteProduk/{id}', [ProdukController::class, 'deleteProduk']);
 
+    //API NAMPAN
+    Route::get('nampan/getNampan', [NampanController::class, 'getNampan']);
+    Route::post('nampan/storeNampan', [NampanController::class, 'storeNampan']);
+    Route::get('nampan/getNampanByID/{id}', [NampanController::class, 'getNampanByID']);
+    Route::post('nampan/updateNampan/{id}', [NampanController::class, 'updateNampan']);
+    Route::get('nampan/finalNampan/{id}', [NampanController::class, 'finalNampan']);
+    Route::get('nampan/tutupNampan/{id}', [NampanController::class, 'tutupNampan']);
+
+    //API NAMPAN PRODUK
+    Route::get('nampan/nampanProduk/getNampanProduk/{id}', [NampanProdukController::class, 'getNampanProduk']);
+    Route::get('nampan/nampanProduk/getProdukNampan/{id}', [NampanProdukController::class, 'getProdukNampan']);
+    Route::post('nampan/nampanproduk/storeProdukNampan/{id}', [NampanProdukController::class, 'storeProdukNampan']);
+    Route::delete('nampan/nampanproduk/deleteNampanProduk/{id}', [NampanProdukController::class, 'deleteNampanProduk']);
+
+    //API SCANBARCODE
+    Route::get('scanbarcode/getProdukByScanbarcode/{id}', [ProdukController::class, 'getProdukByScanbarcode']);
+
 
     //API PELANGGAN
     Route::get('pelanggan/getPelanggan', [PelangganController::class, 'getPelanggan']);
@@ -97,6 +115,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('suplier/getSuplierByID/{id}', [SuplierController::class, 'getSuplierByID']);
     Route::post('suplier/updateSuplier/{id}', [SuplierController::class, 'updateSuplier']);
     Route::delete('suplier/deleteSuplier/{id}', [SuplierController::class, 'deleteSuplier']);
+
 
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);

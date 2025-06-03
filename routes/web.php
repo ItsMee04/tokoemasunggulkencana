@@ -73,6 +73,16 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         return view('pages.master.produk');
     })->name('admin.produk');
 
+    //Route View Produk
+    Route::get('/nampan', function () {
+        return view('pages.master.nampan');
+    })->name('admin.nampan');
+
+    //Route View Scanbarcode
+    Route::get('/scanbarcode', function () {
+        return view('pages.master.scanbarcode');
+    })->name('admin.scanbarcode');
+
 
     //Route View Pelanggan
     Route::get('/pelanggan', function () {
@@ -83,6 +93,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/suplier', function () {
         return view('pages.master.suplier');
     })->name('admin.suplier');
+
+    //Route View POS
+    Route::get('/pos', function () {
+        return view('pages.transaksi.pos');
+    })->name('admin.pos');
 });
 
 // // Owner Routes

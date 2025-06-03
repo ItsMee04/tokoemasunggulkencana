@@ -908,20 +908,6 @@ $(document).ready(function () {
 		}
 	}
 
-
-	$('ul.tabs li').click(function () {
-		var $this = $(this);
-		var $theTab = $(this).attr('id');
-		console.log($theTab);
-		if ($this.hasClass('active')) {
-			// do nothing
-		} else {
-			$this.closest('.tabs_wrapper').find('ul.tabs li, .tabs_container .tab_content').removeClass('active');
-			$('.tabs_container .tab_content[data-tab="' + $theTab + '"], ul.tabs li[id="' + $theTab + '"]').addClass('active');
-		}
-
-	});
-
 	$('body').append('<div class="sidebar-filter"></div>');
 	//theme Settings 
 	setTimeout(function () {
