@@ -14,6 +14,7 @@ use App\Http\Controllers\Master\PegawaiController;
 use App\Http\Controllers\Master\SuplierController;
 use App\Http\Controllers\Master\PelangganController;
 use App\Http\Controllers\Master\JenisProdukController;
+use App\Http\Controllers\Master\NampanProdukController;
 
 /*
 |--------------------------------------------------------------------------
