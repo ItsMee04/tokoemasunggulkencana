@@ -92,12 +92,14 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="pelanggan" data-menu-title="Pelanggan"></i><span>
-                                            Pelanggan</span></a>
+                                    <a href="pelanggan" data-menu-title="Pelanggan">
+                                        Pelanggan
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="suplier" data-menu-title="Suplier"><span>
-                                            Suplier</span></a>
+                                    <a href="suplier" data-menu-title="Suplier">
+                                        Suplier
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -109,7 +111,7 @@
                     </b>
                     <ul>
                         <li>
-                            <a href="/admin/pos" data-menu-title="POS">
+                            <a href="pos" data-menu-title="POS">
                                 <b>
                                     <i data-feather="hard-drive"></i><span>
                                         POS</span>

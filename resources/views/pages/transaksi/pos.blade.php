@@ -1,4 +1,4 @@
-@extends('Layouts.app')
+@extends('layouts.app')
 @section('title', 'POS')
 @section('content')
     <div class="page-wrapper pos-pg-wrapper">

@@ -78,6 +78,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         return view('pages.master.nampan');
     })->name('admin.nampan');
 
+    Route::get('/nampan/NampanProduk/{id}', function () {
+        return view('pages.master.nampanproduk');
+    })->name('admin.nampanproduk');
+
     //Route View Scanbarcode
     Route::get('/scanbarcode', function () {
         return view('pages.master.scanbarcode');

@@ -54,7 +54,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -132,29 +131,60 @@
         </div>
     </div>
 
-    <!-- md Nampan Produk -->
-    <div class="modal fade" id="mdNampanProduk">
-        <div class="modal-dialog modal-fullscreen-sm-down">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="page-title">
-                        <h4>EDIT NAMPAN</h4>
-                    </div>
-                    <button type="button" class="close bg-danger text-white fs-16" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn me-2 btn-secondary" data-bs-dismiss="modal">BATAL</button>
-                    <button type="submit" class="btn btn-primary">SIMPAN</button>
-                </div>
-            </div>
+
+
+    <!-- Modal Iframe Khusus Content -->
+    <div id="popupIframeContent" class="custom-modal-content-area">
+        <div class="popup-inner">
+            <button type="button" class="btn btn-sm btn-soft-danger rounded-pill close-button" id="closeFrame"> CLOSE
+                <span data-feather="x-circle"></span></button>
+            <iframe src="" id="iframePage" frameborder="0"></iframe>
         </div>
     </div>
 
+    <style>
+        .custom-modal-content-area {
+            position: fixed;
+            top: 66px;
+            /* Sesuaikan dengan header */
+            left: 260px;
+            /* Sesuaikan dengan sidebar */
+            width: calc(100% - 260px);
+            /* Lebar konten tanpa sidebar */
+            height: calc(100% - 66px);
+            /* Tinggi konten tanpa header */
+            background: white;
+            z-index: 9999;
+            display: none;
+            /* Awalnya sembunyi */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10000;
+            /* pastikan berada di atas iframe */
+        }
+
+        #iframePage {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/master/nampan.js') }}"></script>
 @endsection

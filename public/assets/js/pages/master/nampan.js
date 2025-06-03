@@ -389,11 +389,26 @@ $(document).ready(function () {
     });
 
     // Ketika tombol detail produk ditekan
+
+
     $(document).on("click", ".btn-detail", function () {
         const produkID = $(this).data("id");
-
-        $("#mdNampanProduk").modal("show");
-        // const url = `/admin/nampan/NampanProduk/${produkID}`; // Sesuaikan dengan route Laravel
-        // window.location.href = url;
+        const urlNampanProduk = `nampan/NampanProduk/${produkID}`;
+        // Kalau perlu kirim produkID sebagai query param, bisa tambah ?id=produkID
+        openIframeModal(urlNampanProduk);
     });
+
+    $(document).on("click", "#closeFrame", function () {
+        closeIframeModal();
+    });
+
+    function openIframeModal(url) {
+        $('#iframePage').attr('src', url);
+        $('#popupIframeContent').fadeIn();
+    }
+
+    function closeIframeModal() {
+        $('#iframePage').attr('src', '');
+        $('#popupIframeContent').fadeOut();
+    }
 })
