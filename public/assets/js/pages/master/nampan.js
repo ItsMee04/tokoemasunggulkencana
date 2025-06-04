@@ -285,14 +285,6 @@ $(document).ready(function () {
                     }
 
                     errorList += "</ul>";
-
-                    Swal.fire({
-                        icon: "error",
-                        title: "Validasi Gagal",
-                        html: errorList,
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
                     showToastError(errorList)
 
                 } else if (xhr.responseJSON && xhr.responseJSON.message) {
@@ -395,10 +387,6 @@ $(document).ready(function () {
         openIframeModal(urlNampanProduk, produkID);
     });
 
-    $(document).on("click", "#closeFrame", function () {
-        closeIframeModal();
-    });
-
     function openIframeModal(url, produkID) {
         $('#iframePage').attr('src', url);
         $('#popupIframeContent').fadeIn();
@@ -410,8 +398,14 @@ $(document).ready(function () {
         });
     }
 
-    function closeIframeModal() {
-        $('#iframePage').attr('src', '');
-        $('#popupIframeContent').fadeOut();
-    }
+    window.addEventListener('message', function (event) {
+        const data = event.data;
+
+        if (data.action === 'closeIframeModal') {
+            // Jalankan fungsi close modal iframe dari parent
+            $('#iframePage').attr('src', '');
+            $('#popupIframeContent').fadeOut();
+        }
+    });
+
 })

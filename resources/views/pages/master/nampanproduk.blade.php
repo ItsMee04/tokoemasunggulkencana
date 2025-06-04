@@ -72,8 +72,8 @@
                         PRODUK</a>
                 </div>
                 <div class="page-btn import">
-                    <a onclick="history.back();" class="btn btn-added btn-secondary" data-bs-toggle="modal"
-                        data-bs-target="#view-notes"><i data-feather="chevrons-left" class="me-2"></i> KEMBALI KE
+                    <a id="closeFrame" class="btn btn-added btn-secondary"><i data-feather="chevrons-left"
+                            class="me-2"></i> KEMBALI KE
                         NAMPAN</a>
                 </div>
             </div>
@@ -199,7 +199,7 @@
     <script src="{{ asset('assets/js/script.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/index.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/customtoastfy.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/js/pages/master/nampanProduk.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/master/nampanproduk.js') }}"></script>
 </body>
 
 </html>

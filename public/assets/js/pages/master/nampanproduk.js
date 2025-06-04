@@ -12,14 +12,100 @@ $(document).ready(function () {
         showToastSuccess("Data Nampan Berhasil Direfresh")
     });
 
+    let globalProdukID = null;
+
     window.addEventListener('message', function (event) {
-        // Optional: cek origin agar aman
         const data = event.data;
         if (data.produkID) {
-            console.log('Dapat produkID dari parent:', data.produkID);
-            getNampanProduk(data.produkID);
+            globalProdukID = data.produkID; // Simpan ke variabel global
+            getNampanProduk(globalProdukID);
         }
     });
+
+    //load data nampan produk
+    function getNampanProduk(globalProdukID) {
+        // Datatable
+        if ($('#nampanProdukTable').length > 0) {
+            tableNamProd = $('#nampanProdukTable').DataTable({
+                "scrollX": false, // Jangan aktifkan scroll horizontal secara paksa
+                "bFilter": true,
+                "sDom": 'fBtlpi',
+                "ordering": true,
+                "language": {
+                    search: ' ',
+                    sLengthMenu: '_MENU_',
+                    searchPlaceholder: "Search",
+                    info: "_START_ - _END_ of _TOTAL_ items",
+                    paginate: {
+                        next: ' <i class=" fa fa-angle-right"></i>',
+                        previous: '<i class="fa fa-angle-left"></i> '
+                    },
+                },
+                ajax: {
+                    url: `/admin/nampan/nampanProduk/getNampanProduk/${globalProdukID}`, // Ganti dengan URL endpoint server Anda
+                    type: 'GET', // Metode HTTP (GET/POST)
+                    dataSrc: 'Data' // Jalur data di response JSON
+                },
+                columns: [
+                    {
+                        data: null, // Kolom nomor urut
+                        render: function (data, type, row, meta) {
+                            return meta.row + 1; // Nomor urut dimulai dari 1
+                        },
+                        orderable: false,
+                    },
+                    {
+                        data: "produk.kodeproduk",
+                    },
+                    {
+                        data: "produk.nama",
+                    },
+                    {
+                        data: "produk.berat",
+                        render: function (data, type, row) {
+                            return parseFloat(data).toFixed(1) + " gram"; // Menampilkan 1 angka desimal
+                        }
+                    },
+                    {
+                        data: "produk.karat",
+                        render: function (data, type, row) {
+                            return data + " K"; // Menampilkan K
+                        }
+                    },
+                    {
+                        data: "produk.harga_jual",
+                        render: function (data, type, row) {
+                            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(data);
+                        }
+                    },
+                    {
+                        data: null,        // Kolom aksi
+                        orderable: false,  // Aksi tidak perlu diurutkan
+                        className: "action-table-data",
+                        render: function (data, type, row, meta) {
+                            return `
+                            <div class="edit-delete-action">
+                                <a class="confirm-text p-2" data-id="${row.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="HAPUS DATA">
+                                    <i data-feather="trash-2" class="feather-trash-2"></i>
+                                </a>
+                            </div>
+                        `;
+                        }
+                    }
+                ],
+                initComplete: (settings, json) => {
+                    $('.dataTables_filter').appendTo('#tableSearch');
+                    $('.dataTables_filter').appendTo('.search-input');
+                },
+                drawCallback: function () {
+                    // Re-inisialisasi Feather Icons setelah render ulang DataTable
+                    feather.replace();
+                    // Re-inisialisasi tooltip Bootstrap setelah render ulang DataTable
+                    initializeTooltip();
+                }
+            });
+        }
+    }
 
     //load data nampan produk
     function getNampanProduk(nampanID) {
@@ -139,9 +225,19 @@ $(document).ready(function () {
                     },
                 },
                 ajax: {
-                    url: `/admin/nampan/nampanProduk/getProdukNampan/${nampanID}`,
+                    url: `/api/nampan/nampanProduk/getProdukNampan/${globalProdukID}`,
                     type: 'GET',
-                    dataSrc: 'Data'
+                    dataSrc: 'Data',
+                    beforeSend: function (xhr) {
+                        const token = localStorage.getItem('token');
+                        if (token) {
+                            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                        }
+                    },
+                    error: function (xhr) {
+                        const msg = xhr.responseJSON?.message || 'Gagal mengambil data produk';
+                        showToastError(msg);
+                    }
                 },
                 columns: [
                     {
@@ -238,7 +334,7 @@ $(document).ready(function () {
                 const jenis = result.value;
 
                 const formData = new FormData($("#formTambahProdukNampan")[0]);
-
+                const token = localStorage.getItem('token');
                 selectedItems.forEach((item, index) => {
                     formData.append(`selectedItems[${index}]`, item);
                 });
@@ -247,28 +343,21 @@ $(document).ready(function () {
 
                 // AJAX tetap jalan setelah pilih jenis
                 $.ajax({
-                    url: `/admin/nampan/nampanproduk/storeProdukNampan/${nampanID}`,
+                    url: `/api/nampan/nampanproduk/storeProdukNampan/${globalProdukID}`,
                     type: "POST",
                     data: formData,
                     processData: false,
                     contentType: false,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
                     success: function (response) {
                         if (response.success == true) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Berhasil",
-                                text: response.message,
-                                showConfirmButton: false,
-                                timer: 1000
-                            });
+                            showToastSuccess(response.message)
                             $("#mdTambahProduk").modal("hide");
                             tableNamProd.ajax.reload();
                         } else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Gagal",
-                                text: response.message || "Terjadi kesalahan saat memproses data.",
-                            });
+                            showToastError(response.message)
                         }
                     },
                     error: function (xhr) {
@@ -284,22 +373,9 @@ $(document).ready(function () {
                             }
 
                             errorList += "</ul>";
-
-                            Swal.fire({
-                                icon: "error",
-                                title: "Validasi Gagal",
-                                html: errorList,
-                                showConfirmButton: false,
-                                timer: 1000
-                            });
+                            showToastError(errorList)
                         } else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Terjadi Kesalahan",
-                                text: xhr.responseJSON?.message || "Tidak dapat memproses permintaan.",
-                                showConfirmButton: false,
-                                timer: 1000
-                            });
+                            showToastError(xhr.responseJSON?.message)
                         }
                     },
                 });
@@ -324,22 +400,15 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Kirim permintaan hapus (gunakan itemId)
-                fetch(`/admin/nampan/nampanproduk/deleteNampanProduk/${deleteID}`, {
+                fetch(`/api/nampan/nampanproduk/deleteNampanProduk/${deleteID}`, {
                     method: "DELETE",
                     headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                            "content"
-                        ),
+                        'Authorization': 'Bearer ' + token
                     },
                 })
                     .then((response) => {
                         if (response.ok) {
-                            Swal.fire(
-                                "Dihapus!",
-                                "Data berhasil dihapus.",
-                                "success"
-                            );
+                            showToastSuccess(response.message)
                             tableNamProd.ajax.reload(null, false); // Reload data dari server
                         } else {
                             Swal.fire(
@@ -347,19 +416,21 @@ $(document).ready(function () {
                                 "Terjadi kesalahan saat menghapus data.",
                                 "error"
                             );
+                            showToastError("Terjadi kesalahan saat menghapus data")
                         }
                     })
                     .catch((error) => {
-                        Swal.fire(
-                            "Gagal!",
-                            "Terjadi kesalahan dalam penghapusan data.",
-                            "error"
-                        );
+                        showToastError("Terjadi kesalahan dalam penghapusan data")
                     });
             } else {
                 // Jika batal, beri tahu pengguna
-                Swal.fire("Dibatalkan", "Data tidak dihapus.", "info");
+                showToastError("Dibatalkan, Data tidak dihapus.")
             }
         });
+    });
+
+    $(document).on("click", "#closeFrame", function () {
+        // Kirim pesan ke parent
+        window.parent.postMessage({ action: 'closeIframeModal' }, '*'); // Ganti '*' dengan origin jika ingin lebih aman
     });
 })

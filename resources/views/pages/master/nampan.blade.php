@@ -136,9 +136,6 @@
     <!-- Modal Iframe Khusus Content -->
     <div id="popupIframeContent" class="custom-modal-content-area">
         <div class="popup-inner">
-            <button type="button" class="btn btn-sm btn-soft-danger rounded-pill close-button" id="closeFrame"> CLOSE
-                <span data-feather="x-circle"></span>
-            </button>
             <div class="iframe-wrapper">
                 <iframe src="" id="iframePage" frameborder="0"></iframe>
             </div>
@@ -169,19 +166,6 @@
             height: 100%;
         }
 
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: transparent;
-            border: none;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10000;
-            /* pastikan berada di atas iframe */
-        }
-
         #iframePage {
             width: 100%;
             height: 100%;
@@ -192,7 +176,6 @@
             width: 100%;
             height: 100%;
             padding: 20px;
-            padding-top: 50px;
             /* atau sesuai kebutuhan */
             box-sizing: border-box;
         }
