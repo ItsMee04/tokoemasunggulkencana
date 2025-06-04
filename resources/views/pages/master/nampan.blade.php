@@ -137,8 +137,11 @@
     <div id="popupIframeContent" class="custom-modal-content-area">
         <div class="popup-inner">
             <button type="button" class="btn btn-sm btn-soft-danger rounded-pill close-button" id="closeFrame"> CLOSE
-                <span data-feather="x-circle"></span></button>
-            <iframe src="" id="iframePage" frameborder="0"></iframe>
+                <span data-feather="x-circle"></span>
+            </button>
+            <div class="iframe-wrapper">
+                <iframe src="" id="iframePage" frameborder="0"></iframe>
+            </div>
         </div>
     </div>
 
@@ -153,7 +156,7 @@
             /* Lebar konten tanpa sidebar */
             height: calc(100% - 66px);
             /* Tinggi konten tanpa header */
-            background: white;
+            background: #FAFBFE;
             z-index: 9999;
             display: none;
             /* Awalnya sembunyi */
@@ -183,6 +186,15 @@
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        .iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            padding-top: 50px;
+            /* atau sesuai kebutuhan */
+            box-sizing: border-box;
         }
     </style>
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}" type="text/javascript"></script>

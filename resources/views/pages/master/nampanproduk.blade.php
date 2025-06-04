@@ -44,9 +44,6 @@
 </head>
 
 <body>
-    <div id="global-loader">
-        <div class="whirly-loader"> </div>
-    </div>
     <!-- Main Wrapper -->
     <div class="main-wrapper">
 

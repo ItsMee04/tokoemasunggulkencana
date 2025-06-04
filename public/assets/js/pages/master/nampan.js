@@ -389,22 +389,25 @@ $(document).ready(function () {
     });
 
     // Ketika tombol detail produk ditekan
-
-
     $(document).on("click", ".btn-detail", function () {
         const produkID = $(this).data("id");
-        const urlNampanProduk = `nampan/NampanProduk/${produkID}`;
-        // Kalau perlu kirim produkID sebagai query param, bisa tambah ?id=produkID
-        openIframeModal(urlNampanProduk);
+        const urlNampanProduk = `nampan/NampanProduk`; // tanpa query param
+        openIframeModal(urlNampanProduk, produkID);
     });
 
     $(document).on("click", "#closeFrame", function () {
         closeIframeModal();
     });
 
-    function openIframeModal(url) {
+    function openIframeModal(url, produkID) {
         $('#iframePage').attr('src', url);
         $('#popupIframeContent').fadeIn();
+
+        // Setelah iframe selesai dimuat, kirim data
+        $('#iframePage').on('load', function () {
+            const iframeWindow = this.contentWindow;
+            iframeWindow.postMessage({ produkID }, '*'); // bisa ganti '*' dengan origin jika mau aman
+        });
     }
 
     function closeIframeModal() {

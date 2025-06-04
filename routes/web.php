@@ -78,7 +78,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         return view('pages.master.nampan');
     })->name('admin.nampan');
 
-    Route::get('/nampan/NampanProduk/{id}', function () {
+    Route::get('/nampan/NampanProduk', function () {
         return view('pages.master.nampanproduk');
     })->name('admin.nampanproduk');
 
