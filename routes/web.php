@@ -116,12 +116,25 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/pembeliandaritoko', function () {
         return view('pages.transaksi.pembeliandaritoko');
     })->name('admin.pembeliandaritoko');
+
+    //Route View Pembelian Dari Luar Toko
+    Route::get('/pembeliandariluartoko', function () {
+        return view('pages.transaksi.pembeliandariluartoko');
+    })->name('admin.pembeliandariluartoko');
 });
 
-// // Owner Routes
-// Route::prefix('owner')->middleware(['auth', 'role:owner'])->group(function () {
-//     Route::get('/dashboard', [OwnerController::class, 'dashboard']);
-// });
+//ROUTE OWNER
+Route::prefix('owner')->middleware(['auth', 'role:owner'])->group(function () {
+    //Route View Dashboard
+    Route::get('/dashboard', function () {
+        return view('pages.dashboard.dashboard');
+    })->name('owner.dashboard');
+
+    //Route View Jabatan
+    Route::get('/jabatan', function () {
+        return view('pages.master.jabatan');
+    })->name('admin.jabatan');
+});
 
 // // Pegawai Routes
 // Route::prefix('pegawai')->middleware(['auth', 'role:pegawai'])->group(function () {

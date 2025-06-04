@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,16 +20,31 @@ class RoleMiddleware
         $user = Auth::user();
 
         if (!$user) {
+            // User not authenticated
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Unauthenticated.'], 401);
             }
             return redirect()->route('login');
         }
 
-        // Pastikan relasi role sudah di-load dan kolom role ada
-        $userRole = $user->role->role ?? null;
+        $userRole = optional($user->role)->role;
 
-        if (!$userRole || !in_array(strtoupper($userRole), array_map('strtoupper', $roles))) {
+        Log::debug('RoleMiddleware - User ID: ' . $user->id);
+        Log::debug('RoleMiddleware - User Role: ' . $userRole);
+        Log::debug('RoleMiddleware - Allowed Roles: ' . implode(', ', $roles));
+
+        if (!$userRole) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'User does not have a role assigned.'], 403);
+            }
+            abort(403, 'User does not have a role assigned.');
+        }
+
+        // Normalize roles to uppercase for case-insensitive comparison
+        $allowedRoles = array_map('strtoupper', $roles);
+        $userRoleUpper = strtoupper($userRole);
+
+        if (!in_array($userRoleUpper, $allowedRoles)) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Unauthorized access.'], 403);
             }

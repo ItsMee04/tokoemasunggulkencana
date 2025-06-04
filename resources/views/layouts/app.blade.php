@@ -57,11 +57,11 @@
             $role = auth()->user()->role->role;
         @endphp
 
-        @if ($role === 'ADMIN')
+        @if ($role == 'ADMIN')
             @include('components.sidebar-admin')
-        @elseif ($role === 'OWNER')
+        @elseif ($role == 'OWNER')
             @include('components.sidebar-owner')
-        @elseif ($role === 'PEGAWAI')
+        @elseif ($role == 'PEGAWAI')
             @include('components.sidebar-pegawai')
         @endif
 
