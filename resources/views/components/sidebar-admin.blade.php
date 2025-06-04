@@ -127,7 +127,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/admin/pembelian" data-menu-title="Transaksi Pembelian">
+                            <a href="pembelian" data-menu-title="Transaksi Pembelian">
                                 <b>
                                     <i data-feather="arrow-right-circle"></i><span>
                                         Transaksi Pembelian</span>
@@ -140,11 +140,11 @@
                                         class="menu-arrow"></span></b>
                             </a>
                             <ul>
-                                <li><a href="/admin/pembeliantoko"
-                                        data-menu-title="Pembelian Produk Dari Toko">Pembelian Dari Toko</a>
+                                <li><a href="pembeliandaritoko" data-menu-title="Pembelian Produk Dari Toko">Pembelian
+                                        Dari Toko</a>
                                 </li>
-                                <li><a href="/admin/pembelianluartoko"
-                                        data-menu-title="Pembelian Produk Diluar Toko">Pembelian Diluar
+                                <li><a href="pembeliandariluartoko"
+                                        data-menu-title="Pembelian Produk Dari Luar Toko">Pembelian Dari Luar
                                         Toko</a></li>
                             </ul>
                         </li>

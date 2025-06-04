@@ -102,10 +102,20 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         return view('pages.transaksi.pos');
     })->name('admin.pos');
 
-    //Route View POS
+    //Route View Transaksi
     Route::get('/transaksi', function () {
         return view('pages.transaksi.transaksi');
     })->name('admin.transaksi');
+
+    //Route View Pembelian
+    Route::get('/pembelian', function () {
+        return view('pages.transaksi.pembelian');
+    })->name('admin.pembelian');
+
+    //Route View Pembelian Dari Toko
+    Route::get('/pembeliandaritoko', function () {
+        return view('pages.transaksi.pembeliandaritoko');
+    })->name('admin.pembeliandaritoko');
 });
 
 // // Owner Routes

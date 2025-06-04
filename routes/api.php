@@ -16,6 +16,8 @@ use App\Http\Controllers\Master\PelangganController;
 use App\Http\Controllers\Master\JenisProdukController;
 use App\Http\Controllers\Master\NampanProdukController;
 use App\Http\Controllers\Transaksi\KeranjangController;
+use App\Http\Controllers\Transaksi\PembelianController;
+use App\Http\Controllers\Transaksi\PembelianDariTokoController;
 use App\Http\Controllers\Transaksi\TransaksiController;
 
 /*
@@ -132,6 +134,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('transaksi/konfirmasiPembatalanPembayaran/{id}', [TransaksiController::class, 'konfirmasiPembatalanPembayaran']);
     Route::get('transaksi/getTransaksiByID/{id}', [TransaksiController::class, 'getTransaksiByID']);
     Route::post('transaksi/payment', [TransaksiController::class, 'payment']);
+
+    //API PEMBELIAN
+    Route::get('pembelian/getPembelian', [PembelianController::class, 'getPembelian']);
+    Route::get('pembelian/getPembelianByID/{id}', [PembelianController::class, 'getPembelianByID']);
+    Route::get('pembelian/konfirmasiPembelian/{id}', [PembelianController::class, 'konfirmasiPembelian']);
+    Route::get('pembelian/konfirmasiPembatalanPembelian/{id}', [PembelianController::class, 'konfirmasiPembatalanPembelian']);
+
+    // API PEMBELIAN DARI TOKO
+    Route::post('pembelian/pembeliandaritoko/getTransaksiByKodeTransaksi', [PembelianDariTokoController::class, 'getTransaksiByKodeTransaksi']);
+    Route::get('pembelian/pembeliandaritoko/getPembelianProduk', [PembelianDariTokoController::class, 'getPembelianProduk']);
+    Route::post('pembelian/pembeliandaritoko/storeProdukToPembelianProduk', [PembelianDariTokoController::class, 'storeProdukToPembelianProduk']);
+    Route::post('pembelian/pembeliandaritoko/updatehargaPembelianProduk/{id}', [PembelianDariTokoController::class, 'updatehargaPembelianProduk']);
+    Route::get('pembelian/pembeliandaritoko/showPembelianProduk/{id}', [PembelianDariTokoController::class, 'showPembelianProduk']);
+    Route::delete('pembelian/pembeliandaritoko/deletePembelianProduk/{id}', [PembelianDariTokoController::class, 'deletePembelianProduk']);
+    Route::post('pembelian/pembeliandaritoko/storePembelianPelanggan', [PembelianDariTokoController::class, 'storePembelianPelanggan']);
 
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);
