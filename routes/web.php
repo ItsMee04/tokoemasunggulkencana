@@ -133,12 +133,163 @@ Route::prefix('owner')->middleware(['auth', 'role:owner'])->group(function () {
     //Route View Jabatan
     Route::get('/jabatan', function () {
         return view('pages.master.jabatan');
-    })->name('admin.jabatan');
+    })->name('owner.jabatan');
+
+    //Route View Role
+    Route::get('/role', function () {
+        return view('pages.master.role');
+    })->name('owner.role');
+
+    //Route View Pegawai
+    Route::get('/pegawai', function () {
+        return view('pages.master.pegawai');
+    })->name('owner.pegawai');
+
+    //Route View User
+    Route::get('/users', function () {
+        return view('pages.master.user');
+    })->name('owner.user');
+
+    //Route View Kondisi
+    Route::get('/kondisi', function () {
+        return view('pages.master.kondisi');
+    })->name('owner.kondisi');
+
+    //Route View Diskon
+    Route::get('/diskon', function () {
+        return view('pages.master.diskon');
+    })->name('owner.diskon');
+
+    //Route View Jenis Produk
+    Route::get('/jenisproduk', function () {
+        return view('pages.master.jenisproduk');
+    })->name('owner.jenisproduk');
+
+    //Route View Produk
+    Route::get('/produk', function () {
+        return view('pages.master.produk');
+    })->name('owner.produk');
+
+    //Route View Produk
+    Route::get('/nampan', function () {
+        return view('pages.master.nampan');
+    })->name('owner.nampan');
+
+    Route::get('/nampan/NampanProduk', function () {
+        return view('pages.master.nampanproduk');
+    })->name('owner.nampanproduk');
+
+    //Route View Scanbarcode
+    Route::get('/scanbarcode', function () {
+        return view('pages.master.scanbarcode');
+    })->name('owner.scanbarcode');
+
+    //Route View Pelanggan
+    Route::get('/pelanggan', function () {
+        return view('pages.master.pelanggan');
+    })->name('owner.pelanggan');
+
+    //Route View Pelanggan
+    Route::get('/suplier', function () {
+        return view('pages.master.suplier');
+    })->name('owner.suplier');
+
+    //Route View POS
+    Route::get('/pos', function () {
+        return view('pages.transaksi.pos');
+    })->name('owner.pos');
+
+    //Route View Transaksi
+    Route::get('/transaksi', function () {
+        return view('pages.transaksi.transaksi');
+    })->name('owner.transaksi');
+
+    //Route View Pembelian
+    Route::get('/pembelian', function () {
+        return view('pages.transaksi.pembelian');
+    })->name('owner.pembelian');
+
+    //Route View Pembelian Dari Toko
+    Route::get('/pembeliandaritoko', function () {
+        return view('pages.transaksi.pembeliandaritoko');
+    })->name('owner.pembeliandaritoko');
+
+    //Route View Pembelian Dari Luar Toko
+    Route::get('/pembeliandariluartoko', function () {
+        return view('pages.transaksi.pembeliandariluartoko');
+    })->name('owner.pembeliandariluartoko');
 });
 
-// // Pegawai Routes
-// Route::prefix('pegawai')->middleware(['auth', 'role:pegawai'])->group(function () {
-//     Route::get('/dashboard', [PegawaiController::class, 'dashboard']);
-// });
+//ROUTE PEGAWAI
+Route::prefix('pegawai')->middleware(['auth', 'role:pegawai'])->group(function () {
+    //Route View Dashboard
+    Route::get('/dashboard', function () {
+        return view('pages.dashboard.dashboard');
+    })->name('pegawai.dashboard');
+
+    //Route View Diskon
+    Route::get('/diskon', function () {
+        return view('pages.master.diskon');
+    })->name('pegawai.diskon');
+
+    //Route View Jenis Produk
+    Route::get('/jenisproduk', function () {
+        return view('pages.master.jenisproduk');
+    })->name('pegawai.jenisproduk');
+
+    //Route View Produk
+    Route::get('/produk', function () {
+        return view('pages.master.produk');
+    })->name('pegawai.produk');
+
+    //Route View Produk
+    Route::get('/nampan', function () {
+        return view('pages.master.nampan');
+    })->name('pegawai.nampan');
+
+    Route::get('/nampan/NampanProduk', function () {
+        return view('pages.master.nampanproduk');
+    })->name('pegawai.nampanproduk');
+
+    //Route View Scanbarcode
+    Route::get('/scanbarcode', function () {
+        return view('pages.master.scanbarcode');
+    })->name('pegawai.scanbarcode');
+
+    //Route View Pelanggan
+    Route::get('/pelanggan', function () {
+        return view('pages.master.pelanggan');
+    })->name('pegawai.pelanggan');
+
+    //Route View Pelanggan
+    Route::get('/suplier', function () {
+        return view('pages.master.suplier');
+    })->name('pegawai.suplier');
+
+    //Route View POS
+    Route::get('/pos', function () {
+        return view('pages.transaksi.pos');
+    })->name('owpegawainer.pos');
+
+    //Route View Transaksi
+    Route::get('/transaksi', function () {
+        return view('pages.transaksi.transaksi');
+    })->name('pegawai.transaksi');
+
+    //Route View Pembelian
+    Route::get('/pembelian', function () {
+        return view('pages.transaksi.pembelian');
+    })->name('pegawai.pembelian');
+
+    //Route View Pembelian Dari Toko
+    Route::get('/pembeliandaritoko', function () {
+        return view('pages.transaksi.pembeliandaritoko');
+    })->name('owpegawainer.pembeliandaritoko');
+
+    //Route View Pembelian Dari Luar Toko
+    Route::get('/pembeliandariluartoko', function () {
+        return view('pages.transaksi.pembeliandariluartoko');
+    })->name('pegawai.pembeliandariluartoko');
+});
 
 Route::post('/logout', [AuthController::class, 'logoutSession'])->middleware('auth');

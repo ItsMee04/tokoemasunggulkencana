@@ -69,7 +69,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('kondisi/getKondisiByID/{id}', [KondisiController::class, 'getKondisiByID']);
         Route::post('kondisi/updateKondisi/{id}', [KondisiController::class, 'updateKondisi']);
         Route::delete('kondisi/deleteKondisi/{id}', [KondisiController::class, 'deletekondisi']);
-
+    });
+    Route::middleware(['role:admin,owner,pegawai'])->group(function () {
         //API DISKON
         Route::get('diskon/getDiskon', [DiskonController::class, 'getDiskon']);
         Route::post('diskon/storeDiskon', [DiskonController::class, 'storeDiskon']);
