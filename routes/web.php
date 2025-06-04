@@ -87,7 +87,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         return view('pages.master.scanbarcode');
     })->name('admin.scanbarcode');
 
-
     //Route View Pelanggan
     Route::get('/pelanggan', function () {
         return view('pages.master.pelanggan');
@@ -102,6 +101,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/pos', function () {
         return view('pages.transaksi.pos');
     })->name('admin.pos');
+
+    //Route View POS
+    Route::get('/transaksi', function () {
+        return view('pages.transaksi.transaksi');
+    })->name('admin.transaksi');
 });
 
 // // Owner Routes

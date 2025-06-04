@@ -387,7 +387,7 @@ $(document).ready(function () {
     // ketika button hapus di tekan
     $(document).on("click", ".confirm-text", function () {
         const deleteID = $(this).data("id");
-
+        const token = localStorage.getItem('token');
         // SweetAlert2 untuk konfirmasi
         Swal.fire({
             title: "Apakah Anda yakin?",

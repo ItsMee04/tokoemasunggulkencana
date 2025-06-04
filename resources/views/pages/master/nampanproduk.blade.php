@@ -44,9 +44,11 @@
 </head>
 
 <body>
+    <div id="global-loader">
+        <div class="whirly-loader"> </div>
+    </div>
     <!-- Main Wrapper -->
     <div class="main-wrapper">
-
         <div class="content">
             <div class="page-header">
                 <div class="add-item d-flex">
@@ -72,8 +74,8 @@
                         PRODUK</a>
                 </div>
                 <div class="page-btn import">
-                    <a id="closeFrame" class="btn btn-added btn-secondary"><i data-feather="chevrons-left"
-                            class="me-2"></i> KEMBALI KE
+                    <a onclick="history.back();" class="btn btn-added btn-secondary" data-bs-toggle="modal"
+                        data-bs-target="#view-notes"><i data-feather="chevrons-left" class="me-2"></i> KEMBALI KE
                         NAMPAN</a>
                 </div>
             </div>

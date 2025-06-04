@@ -125,6 +125,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('keranjang/addToCart', [KeranjangController::class, 'addToCart']);
     Route::delete('keranjang/deleteKeranjangAll', [KeranjangController::class, 'deleteKeranjangAll']);
     Route::delete('keranjang/deleteKeranjangByID/{id}', [KeranjangController::class, 'deleteKeranjangByID']);
+
+    //API TRANSAKSI
+    Route::get('transaksi/getTransaksi', [TransaksiController::class, 'getTransaksi']);
+    Route::get('transaksi/konfirmasiPembayaran/{id}', [TransaksiController::class, 'konfirmasiPembayaran']);
+    Route::get('transaksi/konfirmasiPembatalanPembayaran/{id}', [TransaksiController::class, 'konfirmasiPembatalanPembayaran']);
+    Route::get('transaksi/getTransaksiByID/{id}', [TransaksiController::class, 'getTransaksiByID']);
     Route::post('transaksi/payment', [TransaksiController::class, 'payment']);
 
     //API LOGOUT

@@ -119,7 +119,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/admin/transaksi" data-menu-title="Transaksi Penjualan">
+                            <a href="transaksi" data-menu-title="Transaksi Penjualan">
                                 <b>
                                     <i data-feather="arrow-left-circle"></i><span>
                                         Transaksi Penjualan</span>
