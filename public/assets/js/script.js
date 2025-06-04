@@ -20,16 +20,10 @@ $(document).ready(function () {
 		}
 	});
 
-
 	if (localStorage.theme) document.documentElement.setAttribute("data-layout-mode", localStorage.theme);
-
-	//theme Settings 
-
-
 
 	// Mobile menu sidebar overlay
 	$('body').append('<div class="sidebar-overlay"></div>');
-
 
 	$(document).on('click', '#mobile_btn', function () {
 		$wrapper.toggleClass('slide-nav');

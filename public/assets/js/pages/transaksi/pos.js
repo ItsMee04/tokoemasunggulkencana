@@ -676,12 +676,26 @@ $(document).ready(function () {
                         render: function (data, type, row) {
                             // Menampilkan badge sesuai dengan status
                             if (data == 1) {
-                                return `<span class="badge bg-success fw-medium fs-10"><b>ACTIVE</b>></span>`;
+                                return `<span class="badge bg-warning fw-medium fs-10"><b>BELUM DIBAYAR</b></span>`;
                             } else if (data == 2) {
-                                return `<span class="badge bg-danger fw-medium fs-10"><b>IN ACTIVE</B></span>`;
+                                return `<span class="badge bg-success fw-medium fs-10"><b>DIBAYAR</b></span>`;
                             } else {
-                                return `<span class="badge bg-secondary fw-medium fs-10"><b>UNKNOWN</b></span>`;
+                                return `<span class="badge bg-danger fw-medium fs-10"><b>BATAL</b></span>`;
                             }
+                        }
+                    },
+                    {
+                        data: null,        // Kolom aksi
+                        orderable: false,  // Aksi tidak perlu diurutkan
+                        className: "action-table-data",
+                        render: function (data, type, row, meta) {
+                            return `
+                                <div class="edit-delete-action">
+                                    <a class="me-2 edit-icon p-2 btn-detail" data-id="${row.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="CETAK TRANSAKSI">
+                                        <i class="fas fa-print"></i>
+                                    </a>
+                                </div>
+                            `;
                         }
                     }
                 ],

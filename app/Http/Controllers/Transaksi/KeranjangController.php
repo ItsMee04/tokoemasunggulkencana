@@ -46,6 +46,34 @@ class KeranjangController extends Controller
         return $kode;
     }
 
+    private function terbilang($angka)
+    {
+        $angka = abs($angka);
+        $huruf = ["", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"];
+
+        if ($angka < 12) {
+            return $huruf[$angka];
+        } elseif ($angka < 20) {
+            return $this->terbilang($angka - 10) . " belas";
+        } elseif ($angka < 100) {
+            return $this->terbilang(floor($angka / 10)) . " puluh " . $this->terbilang($angka % 10);
+        } elseif ($angka < 200) {
+            return "seratus " . $this->terbilang($angka - 100);
+        } elseif ($angka < 1000) {
+            return $this->terbilang(floor($angka / 100)) . " ratus " . $this->terbilang($angka % 100);
+        } elseif ($angka < 2000) {
+            return "seribu " . $this->terbilang($angka - 1000);
+        } elseif ($angka < 1000000) {
+            return $this->terbilang(floor($angka / 1000)) . " ribu " . $this->terbilang($angka % 1000);
+        } elseif ($angka < 1000000000) {
+            return $this->terbilang(floor($angka / 1000000)) . " juta " . $this->terbilang($angka % 1000000);
+        } elseif ($angka < 1000000000000) {
+            return $this->terbilang(floor($angka / 1000000000)) . " miliar " . $this->terbilang($angka % 1000000000);
+        } else {
+            return "angka terlalu besar";
+        }
+    }
+
     public function getKeranjang()
     {
         $keranjang = Keranjang::where('status', 1)
@@ -80,10 +108,15 @@ class KeranjangController extends Controller
             ]);
         }
 
+
+
         //HargaBarang
         $harga  = Produk::where('id', $request->id)->first()->harga_jual;
         $berat  = Produk::where('id', $request->id)->first()->berat;
         $total  = $harga * $berat;
+
+        $angka = abs($total);
+        $terbilang = ucwords(trim($this->terbilang($angka))) . ' Rupiah';
 
         $request['kodekeranjang']   = $generateCode;
         $request['produk_id']       = $request->id;
@@ -93,6 +126,7 @@ class KeranjangController extends Controller
         $request['lingkar']         = $request->lingkar;
         $request['panjang']         = $request->panjang;
         $request['total']           = $total;
+        $request['terbilang']       = $terbilang;
         $request['oleh']            = Auth::user()->id;
         $request['status']          = 1;
 

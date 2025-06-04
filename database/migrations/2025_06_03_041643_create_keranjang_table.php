@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('lingkar')->default(0);
             $table->integer('panjang')->default(0);
             $table->integer('total');
+            $table->string('terbilang', 100);
             $table->unsignedBigInteger('oleh');
             $table->integer('status');
             $table->timestamps();

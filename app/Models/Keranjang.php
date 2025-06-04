@@ -23,6 +23,7 @@ class Keranjang extends Model
         'lingkar',
         'panjang',
         'total',
+        'terbilang',
         'oleh',
         'status'
     ];

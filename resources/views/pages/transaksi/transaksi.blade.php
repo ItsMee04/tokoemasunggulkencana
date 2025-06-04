@@ -68,9 +68,9 @@
                     </div>
                     <ul class="table-top-head">
                         <li>
-                            <a data-bs-toggle="tooltip" id="cetakkodetransaksi" data-kodetransaksi=""
-                                data-bs-placement="top" title="CETAK TRANSAKSI"><img
-                                    src="{{ asset('assets') }}/img/icons/printer.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" class="btn btn-icon btn-sm btn-soft-secondary rounded"
+                                id="cetakkodetransaksi" data-kodetransaksi="" data-bs-placement="top"
+                                title="CETAK TRANSAKSI"><i class="fas fa-print"></i></a>
                         </li>
                     </ul>
                 </div>

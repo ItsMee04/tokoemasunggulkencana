@@ -273,7 +273,7 @@ $(document).ready(function () {
                     if (data.status != 0) {
                         tombolCetak = `
                         <a href="javascript:void(0);" id="printSuratBarang" data-kodetransaksi="${data.kodetransaksi}" data-kodeproduk="${produk.kodeproduk}" class="btn btn-icon btn-sm btn-soft-secondary rounded-pill">
-                            <i class="feather-printer"></i>
+                            <i class="fas fa-print"></i>
                         </a>`;
                     }
 

@@ -6,10 +6,10 @@
             <div class="btn-row d-sm-flex align-items-center">
                 <a href="javascript:void(0);" class="btn btn-secondary mb-xs-3" id="modalTransaksi"><span
                         class="me-1 d-flex align-items-center"><i data-feather="shopping-cart"
-                            class="feather-16"></i></span>LIHAT ORDER</a>
+                            class="feather-16"></i></span><b>LIHAT ORDER</b></a>
                 <a href="javascript:void(0);" class="btn btn-primary" id="refreshButton"><span
                         class="me-1 d-flex align-items-center"><i data-feather="refresh-ccw"
-                            class="feather-16"></i></span>REFRESH</a>
+                            class="feather-16"></i></span><b>REFRESH</b></a>
             </div>
             <div class="row align-items-start pos-wrapper">
                 <div class="col-md-12 col-lg-8">
@@ -153,7 +153,7 @@
 
     <!-- md Transaksi -->
     <div class="modal fade pos-modal" id="mdTransaksi" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header p-4">
                     <h5 class="modal-title">Recent Transactions</h5>
@@ -179,6 +179,7 @@
                                     <th>PELANGGAN</th>
                                     <th>TOTAL </th>
                                     <th>STATUS </th>
+                                    <th>ACTION</th>
                                 </tr>
                             </thead>
                             <tbody>
