@@ -15,6 +15,8 @@ use App\Http\Controllers\Master\SuplierController;
 use App\Http\Controllers\Master\PelangganController;
 use App\Http\Controllers\Master\JenisProdukController;
 use App\Http\Controllers\Master\NampanProdukController;
+use App\Http\Controllers\Transaksi\KeranjangController;
+use App\Http\Controllers\Transaksi\TransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,7 +104,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //API SCANBARCODE
     Route::get('scanbarcode/getProdukByScanbarcode/{id}', [ProdukController::class, 'getProdukByScanbarcode']);
 
-
     //API PELANGGAN
     Route::get('pelanggan/getPelanggan', [PelangganController::class, 'getPelanggan']);
     Route::post('pelanggan/storePelanggan', [PelangganController::class, 'storePelanggan']);
@@ -117,6 +118,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('suplier/updateSuplier/{id}', [SuplierController::class, 'updateSuplier']);
     Route::delete('suplier/deleteSuplier/{id}', [SuplierController::class, 'deleteSuplier']);
 
+    //API POS
+    Route::get('keranjang/getKeranjang', [KeranjangController::class, 'getKeranjang']);
+    Route::get('keranjang/getKodeKeranjang', [KeranjangController::class, 'getKodeKeranjang']);
+    Route::get('transaksi/getKodeTransaksi', [TransaksiController::class, 'getKodeTransaksi']);
+    Route::post('keranjang/addToCart', [KeranjangController::class, 'addToCart']);
+    Route::delete('keranjang/deleteKeranjangAll', [KeranjangController::class, 'deleteKeranjangAll']);
+    Route::delete('keranjang/deleteKeranjangByID/{id}', [KeranjangController::class, 'deleteKeranjangByID']);
+    Route::post('transaksi/payment', [TransaksiController::class, 'payment']);
 
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);
