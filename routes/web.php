@@ -121,6 +121,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/pembeliandariluartoko', function () {
         return view('pages.transaksi.pembeliandariluartoko');
     })->name('admin.pembeliandariluartoko');
+
+    //Route View Perbaikan
+    Route::get('/perbaikan', function () {
+        return view('pages.transaksi.perbaikan');
+    })->name('admin.perbaikan');
 });
 
 //ROUTE OWNER

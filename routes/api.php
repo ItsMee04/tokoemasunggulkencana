@@ -17,9 +17,10 @@ use App\Http\Controllers\Master\JenisProdukController;
 use App\Http\Controllers\Master\NampanProdukController;
 use App\Http\Controllers\Transaksi\KeranjangController;
 use App\Http\Controllers\Transaksi\PembelianController;
-use App\Http\Controllers\Transaksi\PembelianDariLuarTokoController;
-use App\Http\Controllers\Transaksi\PembelianDariTokoController;
+use App\Http\Controllers\Transaksi\PerbaikanController;
 use App\Http\Controllers\Transaksi\TransaksiController;
+use App\Http\Controllers\Transaksi\PembelianDariTokoController;
+use App\Http\Controllers\Transaksi\PembelianDariLuarTokoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,6 +163,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('pembelian/pembeliandariluartoko/updatePembelianByID/{id}', [PembelianDariLuarTokoController::class, 'updatePembelianByID']);
         Route::delete('pembelian/pembeliandariluartoko/deletePembelianProduk/{id}', [PembelianDariLuarTokoController::class, 'deletePembelianProduk']);
         Route::post('pembelian/pembeliandariluartoko/storePembelianLuarToko', [PembelianDariLuarTokoController::class, 'storePembelianLuarToko']);
+
+        //API PERBAIKAN
+        Route::get('perbaikan/getPerbaikan', [PerbaikanController::class, 'getPerbaikan']);
+        Route::get('perbaikan/getPerbaikanByID/{id}', [PerbaikanController::class, 'getPerbaikanByID']);
+        Route::get('perbaikan/konfirmasiPerbaikan/{id}', [PerbaikanController::class, 'konfirmasiPerbaikan']);
+        Route::get('perbaikan/konfirmasiBatalPerbaikan/{id}', [PerbaikanController::class, 'konfirmasiBatalPerbaikan']);
     });
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);
