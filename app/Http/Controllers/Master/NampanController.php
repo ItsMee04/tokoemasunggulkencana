@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use Carbon\Carbon;
 use App\Models\Nampan;
+use App\Models\StokNampan;
 use App\Models\NampanProduk;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

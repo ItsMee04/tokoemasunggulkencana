@@ -15,6 +15,7 @@ use App\Http\Controllers\Master\SuplierController;
 use App\Http\Controllers\Master\PelangganController;
 use App\Http\Controllers\Master\JenisProdukController;
 use App\Http\Controllers\Master\NampanProdukController;
+use App\Http\Controllers\Stok\StokNampanController;
 use App\Http\Controllers\Transaksi\KeranjangController;
 use App\Http\Controllers\Transaksi\PembelianController;
 use App\Http\Controllers\Transaksi\PerbaikanController;
@@ -169,6 +170,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('perbaikan/getPerbaikanByID/{id}', [PerbaikanController::class, 'getPerbaikanByID']);
         Route::get('perbaikan/konfirmasiPerbaikan/{id}', [PerbaikanController::class, 'konfirmasiPerbaikan']);
         Route::get('perbaikan/konfirmasiBatalPerbaikan/{id}', [PerbaikanController::class, 'konfirmasiBatalPerbaikan']);
+
+        //API STOK NAMPAN
+        Route::get('stoknampan/getNampanStok', [StokNampanController::class, 'getNampanStok']);
+        Route::get('stoknampan/getDetailNampanStok/{id}', [StokNampanController::class, 'detailNampanStok']);
     });
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);

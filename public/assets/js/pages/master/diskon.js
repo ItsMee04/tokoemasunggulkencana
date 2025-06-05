@@ -9,7 +9,7 @@ $(document).ready(function () {
         if (tableDiskon) {
             tableDiskon.ajax.reload(null, false); // Reload data dari server
         }
-        showToastSuccess("Data Diskon Berhasil Direfresh")
+        showToastSuccess("Data Diskon Berhasil Direfresh");
     });
 
     //load data diskon
