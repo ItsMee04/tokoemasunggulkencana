@@ -149,7 +149,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="/admin/perbaikan" data-menu-title="Perbaikan">
+                            <a href="perbaikan" data-menu-title="Perbaikan">
                                 <b><i data-feather="slack"></i><span>
                                         Perbaikan</span></b>
                             </a>
@@ -162,7 +162,7 @@
                     </b>
                     <ul>
                         <li>
-                            <a href="/admin/stok/nampanstok" data-menu-title="Manage Stock">
+                            <a href="stoknampan" data-menu-title="Manage Stock">
                                 <b>
                                     <i data-feather="layers"></i><span>
                                         Nampan Stok</span>
