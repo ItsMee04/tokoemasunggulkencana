@@ -33,7 +33,6 @@
                             <img src="{{ asset('assets/img/logo.png') }}" alt="img">
                         </div>
                         <form id="formLogin">
-                            @csrf
                             <div class="login-userset">
                                 <div class="login-userheading">
                                     <h3>Sign In</h3>
