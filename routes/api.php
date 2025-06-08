@@ -8,14 +8,15 @@ use App\Http\Controllers\Master\UserController;
 use App\Http\Controllers\Master\DiskonController;
 use App\Http\Controllers\Master\NampanController;
 use App\Http\Controllers\Master\ProdukController;
+use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\Master\JabatanController;
 use App\Http\Controllers\Master\KondisiController;
 use App\Http\Controllers\Master\PegawaiController;
 use App\Http\Controllers\Master\SuplierController;
+use App\Http\Controllers\Stok\StokNampanController;
 use App\Http\Controllers\Master\PelangganController;
 use App\Http\Controllers\Master\JenisProdukController;
 use App\Http\Controllers\Master\NampanProdukController;
-use App\Http\Controllers\Stok\StokNampanController;
 use App\Http\Controllers\Transaksi\KeranjangController;
 use App\Http\Controllers\Transaksi\PembelianController;
 use App\Http\Controllers\Transaksi\PerbaikanController;
@@ -113,6 +114,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //API SCANBARCODE
         Route::get('scanbarcode/getProdukByScanbarcode/{id}', [ProdukController::class, 'getProdukByScanbarcode']);
 
+        //API SEARCH PRODUK
+        Route::get('produk/getProdukBySearch', [ProdukController::class, 'getProdukBySearch']);
+
         //API PELANGGAN
         Route::get('pelanggan/getPelanggan', [PelangganController::class, 'getPelanggan']);
         Route::post('pelanggan/storePelanggan', [PelangganController::class, 'storePelanggan']);
@@ -174,6 +178,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //API STOK NAMPAN
         Route::get('stoknampan/getNampanStok', [StokNampanController::class, 'getNampanStok']);
         Route::get('stoknampan/getDetailNampanStok/{id}', [StokNampanController::class, 'detailNampanStok']);
+
+        //API STOK NAMPAN
+        Route::post('report/cetakBarcodeProduk', [ReportController::class, 'cetakBarcodeProduk']);
     });
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);

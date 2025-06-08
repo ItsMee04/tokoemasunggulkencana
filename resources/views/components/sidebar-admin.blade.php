@@ -79,6 +79,11 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="printbarcode" data-menu-title="Print Barcode">
+                                        Print Barcode
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="scanbarcode" data-menu-title="Scan Barcode">
                                         Scan Barcode
                                     </a>

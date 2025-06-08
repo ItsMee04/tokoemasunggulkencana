@@ -82,6 +82,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         return view('pages.master.nampanproduk');
     })->name('admin.nampanproduk');
 
+    //Route View Print Barcode
+    Route::get('/printbarcode', function () {
+        return view('pages.master.printbarcode');
+    })->name('admin.printbarcode');
+
     //Route View Scanbarcode
     Route::get('/scanbarcode', function () {
         return view('pages.master.scanbarcode');
@@ -188,6 +193,11 @@ Route::prefix('owner')->middleware(['auth', 'role:owner'])->group(function () {
     Route::get('/nampan/NampanProduk', function () {
         return view('pages.master.nampanproduk');
     })->name('owner.nampanproduk');
+
+    //Route View Print Barcode
+    Route::get('/printbarcode', function () {
+        return view('pages.master.printbarcode');
+    })->name('owner.printbarcode');
 
     //Route View Scanbarcode
     Route::get('/scanbarcode', function () {

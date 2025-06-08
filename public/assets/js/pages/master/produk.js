@@ -418,11 +418,11 @@ $(document).ready(function () {
                     }
 
                     errorList += "</ul>";
-                    showToastSuccess(errorList)
+                    showToastError(errorList)
                 } else if (xhr.responseJSON && xhr.responseJSON.message) {
-                    showToastSuccess(xhr.responseJSON.message)
+                    showToastError(xhr.responseJSON.message)
                 } else {
-                    showToastSuccess("Tidak dapat memproses permintaan. Silakan coba lagi")
+                    showToastError("Tidak dapat memproses permintaan. Silakan coba lagi")
                 }
             },
         });
@@ -542,29 +542,5 @@ $(document).ready(function () {
             // Mengubah angka menjadi format Rupiah dengan titik sebagai pemisah ribuan
             return "Rp. " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
-    });
-
-    // Ketika tombol cetak barcode produk ditekan
-    $(document).on("click", ".print-barcode", function () {
-        const produkID = $(this).data("id");
-        const token = localStorage.getItem('token');
-        $.ajax({
-            url: `/api/report/cetakBarcodeProduk/${produkID}`, // Endpoint Laravel untuk menyimpan pegawai
-            type: "POST",
-            processData: false, // Agar data tidak diubah menjadi string
-            contentType: false, // Agar header Content-Type otomatis disesuaikan
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            success: function (response) {
-                window.open(`/api/report/cetakBarcodeProduk/${produkID}`, '_blank');
-            },
-            error: function (xhr) {
-                const message = xhr.responseJSON?.message || "Terjadi kesalahan saat memproses permintaan.";
-                showToastError(message)
-            }
-        });
-        // Buka laporan di tab baru
-
     });
 })

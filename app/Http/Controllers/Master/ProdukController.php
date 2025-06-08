@@ -202,4 +202,22 @@ class ProdukController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Data Produk Berhasil Ditemukan', 'Data' => $produk]);
     }
+
+    public function getProdukBySearch(Request $request)
+    {
+        $keyword = $request->query('q');
+
+        // Jika kosong langsung balikan array kosong
+        if (!$keyword) {
+            return response()->json([]);
+        }
+
+        $produk = Produk::select('id', 'nama', 'kodeproduk')
+            ->where('nama', 'like', '%' . $keyword . '%')
+            ->orWhere('kodeproduk', 'like', '%' . $keyword . '%')
+            ->limit(10)
+            ->get();
+
+        return response()->json($produk);
+    }
 }
