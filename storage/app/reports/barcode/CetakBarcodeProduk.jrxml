@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CetakBarcodeProduk" pageWidth="226" pageHeight="68" columnWidth="216" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="7ef6fee9-6f49-4854-975a-93b84c210c43">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local Database"/>
+	<property name="com.jaspersoft.studio.unit." value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
+	<parameter name="kodeproduk" class="java.lang.String"/>
+	<parameter name="kodeproduk2" class="java.lang.String"/>
+	<parameter name="barcodePath" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT kodeproduk, berat, karat, lingkar, panjang 
+        FROM `dbtokoemasunggulkencana`.produk 
+        WHERE kodeproduk IN ($P{kodeproduk}, $P{kodeproduk2})]]>
+	</queryString>
+	<field name="kodeproduk" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="kodeproduk"/>
+		<property name="com.jaspersoft.studio.field.label" value="kodeproduk"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="produk"/>
+	</field>
+	<field name="berat" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="berat"/>
+		<property name="com.jaspersoft.studio.field.label" value="berat"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="produk"/>
+	</field>
+	<field name="karat" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="karat"/>
+		<property name="com.jaspersoft.studio.field.label" value="karat"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="produk"/>
+	</field>
+	<field name="lingkar" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="lingkar"/>
+		<property name="com.jaspersoft.studio.field.label" value="lingkar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="produk"/>
+	</field>
+	<field name="panjang" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="panjang"/>
+		<property name="com.jaspersoft.studio.field.label" value="panjang"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="produk"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="29" y="4" width="22" height="10" uuid="7d8ebcd2-746e-4ebc-b8d8-8a266fbdf945"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[ BERAT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="14" width="22" height="10" uuid="57201392-4541-434f-bdc2-332199b8bc5e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[ KARAT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="51" y="4" width="27" height="10" uuid="50ea5093-b3ce-4ed0-9740-467c0f2ef10b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" : "+$F{berat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="14" width="27" height="10" uuid="86d81e96-5051-4326-9a5f-cee52a04dc5d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" : "+$F{karat}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="135" y="4" width="22" height="10" uuid="e15fdb22-43ca-4bd4-b428-676e1c20e3d3">
+					<printWhenExpression><![CDATA[$P{kodeproduk2} != null && !$P{kodeproduk2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[ BERAT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="14" width="22" height="10" uuid="0d10aec8-2a5e-4616-9c0a-814ee4be857b">
+					<printWhenExpression><![CDATA[$P{kodeproduk2} != null && !$P{kodeproduk2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[ KARAT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="4" width="27" height="10" uuid="01600534-741f-4640-b965-f23817fd9b72">
+					<printWhenExpression><![CDATA[$P{kodeproduk2} != null && !$P{kodeproduk2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" : "+$F{berat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="14" width="27" height="10" uuid="479f0175-b967-4bad-bba9-98e20253b012">
+					<printWhenExpression><![CDATA[$P{kodeproduk2} != null && !$P{kodeproduk2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" : "+$F{karat}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="135" y="34" width="22" height="10" uuid="ddf46ae7-73fe-4edc-a24e-a17db413bac6">
+					<printWhenExpression><![CDATA[$P{kodeproduk2} != null && !$P{kodeproduk2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[ SIZE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="34" width="27" height="10" uuid="90b077a0-59ae-434b-947a-6bb5d715d0fc">
+					<printWhenExpression><![CDATA[$P{kodeproduk2} != null && !$P{kodeproduk2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" : "+$F{lingkar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="44" width="27" height="10" uuid="f3bcfd76-5bc2-4c7f-9cf8-a238b5ee51f1">
+					<printWhenExpression><![CDATA[$P{kodeproduk2} != null && !$P{kodeproduk2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" : "+$F{panjang}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="135" y="44" width="22" height="10" uuid="e1aa0db9-e7e4-4129-862a-4e0f169ebad3">
+					<printWhenExpression><![CDATA[$P{kodeproduk2} != null && !$P{kodeproduk2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[LONG]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="51" y="44" width="27" height="10" uuid="9d7d83f1-1722-4a9b-9d0c-aabcc87a1cb8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" : "+$F{panjang}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="34" width="27" height="10" uuid="d3c13e53-2cc5-43f0-b241-fc68021e283c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" : "+$F{lingkar}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="44" width="22" height="10" uuid="bcf37d8a-0616-4957-a8f5-2ad42fb2826c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[LONG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="34" width="22" height="10" uuid="bd0dccb6-f9b6-493f-9335-088d754e7d7b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[ SIZE]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="184" y="3" width="29" height="22" uuid="30226ee4-873f-4d11-b94e-7c1d28431ee0">
+					<printWhenExpression><![CDATA[$P{kodeproduk2} != null && !$P{kodeproduk2}.isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{barcodePath}+$F{kodeproduk}+".png"]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="3" width="29" height="22" uuid="6af0fb71-7462-4eb5-b26b-bcbd88a1e671"/>
+				<imageExpression><![CDATA[$P{barcodePath}+$F{kodeproduk}+".png"]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>
