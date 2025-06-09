@@ -10,82 +10,79 @@ class ReportController extends Controller
 {
     public function cetakBarcodeProduk(Request $request)
     {
-        // Ambil array kodeproduk dari query string atau body (misal pakai POST JSON)
-        $kodeProdukArray = $request->input('kodeproduk', []);  // expect array
+        // Ambil array kodeproduk dari request
+        $kodeProdukArray = $request->input('kodeproduk', []); // contoh: ["P001", "P002"]
 
         if (empty($kodeProdukArray)) {
             return response('Parameter kodeproduk dibutuhkan.', 400);
         }
 
-        // Jika backend JasperStarter butuh 2 parameter saja,
-        // misal ambil dua produk pertama dari array atau gabungkan sesuai kebutuhan
-        $id = $kodeProdukArray[0] ?? '';
-        $id2 = $kodeProdukArray[1] ?? '';
+        // Ubah array ke string untuk parameter JasperReports
+        // Format: 'P001','P002','P003'
+        $produkListString = "'" . implode("','", $kodeProdukArray) . "'";
 
-        // // Paths
-        $jrxmlPath = storage_path('app/reports/barcode/CetakBarcodeProduk.jrxml');
+        // Path file JRXML
+        $jrxmlPath = storage_path('app/reports/barcode/CetakBarcodeProduk.jasper');
+
+        // Folder output hasil PDF
         $outputDir = public_path('barcode');
         $outputFileName = 'CetakBarcodeProduk.pdf';
+
+        // Path barcode (jika digunakan di Jasper, misal untuk lokasi file .png)
         $barcodePath = public_path('storage/barcode/');
 
-        // Ensure output directory exists
+        // Buat folder output jika belum ada
         if (!file_exists($outputDir)) {
             mkdir($outputDir, 0755, true);
         }
 
-        // JasperStarter executable path - adjust if needed
-        $jasperstarterCmd = base_path('vendor/geekcom/phpjasper/bin/jasperstarter/bin/jasperstarter'); // Change to your jasperstarter path
+        // Path jasperstarter (ubah jika beda OS / path)
+        $jasperstarterCmd = base_path('vendor/geekcom/phpjasper/bin/jasperstarter/bin/jasperstarter');
 
-        // DB connection details from config
+        // Ambil koneksi DB dari config
         $dbHost = config('database.connections.mysql.host');
         $dbPort = config('database.connections.mysql.port', '3306');
         $dbName = config('database.connections.mysql.database');
         $dbUser = config('database.connections.mysql.username');
         $dbPass = config('database.connections.mysql.password');
 
-        // Compile command
-        $compileCommand = "\"{$jasperstarterCmd}\" compile \"{$jrxmlPath}\"";
+        // Compile command (dijalankan sekali jika belum ada .jasper)
+        // $compileCommand = "\"{$jasperstarterCmd}\" compile \"{$jrxmlPath}\"";
 
-        // Generate command with DB params
+        // Generate command JasperStarter
         $generateCommand = "\"{$jasperstarterCmd}\" process \"{$jrxmlPath}\" -o \"{$outputDir}\" -f pdf -t mysql"
             . " -u \"{$dbUser}\" -p \"{$dbPass}\" -H \"{$dbHost}\" -n \"{$dbName}\" --db-port=\"{$dbPort}\""
-            . " -P kodeproduk=\"{$id}\" kodeproduk2=\"{$id2}\" barcodePath=\"{$barcodePath}\"";
+            . " -P produkList=\"{$produkListString}\" barcodePath=\"{$barcodePath}\"";
 
         try {
-            // Compile jrxml to jasper
-            Log::info("Running compile command: {$compileCommand}");
-            exec($compileCommand, $compileOutput, $compileReturnVar);
-            if ($compileReturnVar !== 0) {
-                Log::error('Compile failed: ' . implode("\n", $compileOutput));
-                return response('Failed to compile report.', 500);
-            }
+            // Compile jrxml jadi .jasper
+            // Log::info("Compile command: {$compileCommand}");
+            // exec($compileCommand, $compileOutput, $compileReturnVar);
+            // if ($compileReturnVar !== 0) {
+            //     Log::error("Compile error: " . implode("\n", $compileOutput));
+            //     return response('Gagal compile JRXML.', 500);
+            // }
 
-            // Generate report PDF
-            Log::info("Running generate command: {$generateCommand}");
+            // Jalankan proses generate PDF
+            Log::info("Generate command: {$generateCommand}");
             exec($generateCommand, $generateOutput, $generateReturnVar);
             if ($generateReturnVar !== 0) {
-                Log::error('Generate report failed: ' . implode("\n", $generateOutput));
-                return response('Failed to generate report.', 500);
-            }
-
-            $fullBarcodeFile = $barcodePath . $id . ".png";
-
-            if (file_exists($fullBarcodeFile)) {
-                Log::info("File barcode ditemukan: " . $fullBarcodeFile);
-            } else {
-                Log::error("File barcode TIDAK ditemukan: " . $fullBarcodeFile);
+                Log::error("Generate error: " . implode("\n", $generateOutput));
+                return response('Gagal generate laporan.', 500);
             }
 
             $pdfFilePath = $outputDir . '/' . $outputFileName;
+
             if (!file_exists($pdfFilePath)) {
-                Log::error("Generated PDF file not found at path: {$pdfFilePath}");
-                return response('Generated PDF file not found.', 500);
+                Log::error("File PDF tidak ditemukan: {$pdfFilePath}");
+                return response('File PDF tidak ditemukan.', 500);
             }
 
+            // Kirim file ke browser & hapus setelah dikirim
             return response()->file($pdfFilePath)->deleteFileAfterSend(true);
         } catch (\Exception $ex) {
-            Log::error('Exception when generating report: ' . $ex->getMessage());
-            return response('Exception occurred: ' . $ex->getMessage(), 500);
+            Log::error("Exception: " . $ex->getMessage());
+            return response('Terjadi kesalahan: ' . $ex->getMessage(), 500);
         }
     }
 }
