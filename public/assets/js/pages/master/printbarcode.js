@@ -129,19 +129,13 @@ $(document).ready(function () {
             })
             .then(blob => {
                 const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'CetakBarcodeProduk.pdf';  // nama file
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(url); // bersihkan object URL
+                window.open(url, '_blank'); // Tampilkan di tab baru
+                setTimeout(() => window.URL.revokeObjectURL(url), 10000); // Bersihkan URL setelah 10 detik
             })
             .catch(error => {
                 console.error('Error:', error);
                 showToastError('Gagal mencetak barcode: ' + error.message);
             });
     });
-
 
 });

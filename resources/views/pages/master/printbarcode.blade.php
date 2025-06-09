@@ -30,7 +30,7 @@
                         <div class="col-lg-6">
                             <div class="input-blocks search-form seacrh-barcode-item">
                                 <div class="searchInput">
-                                    <label class="form-label">Product</label>
+                                    <label class="form-label">PRODUK</label>
                                     <input type="text" id="produk-input" class="form-control"
                                         placeholder="CARI DENGAN KODE PRODUK">
                                     <div class="icon"><i class="fas fa-search"></i></div>
