@@ -174,8 +174,11 @@ class TransaksiController extends Controller
 
         // Batalkan efek transaksi hanya pada produk yang keluar karena transaksi ini
         NampanProduk::whereIn('produk_id', $produkIds)
+            ->update(['status' => 1]); // dibatalkan
+
+        // Batalkan efek transaksi hanya pada produk yang keluar karena transaksi ini
+        NampanProduk::whereIn('produk_id', $produkIds)
             ->where('jenis', 'keluar')
-            ->where('kodekeranjang', $kodekeranjang)
             ->update(['status' => 0]); // dibatalkan
 
         // Kembalikan status produk ke aktif (jika memang ingin dipakai ulang)

@@ -2,14 +2,15 @@
 <!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cetakSuratBarang" pageWidth="595" pageHeight="311" orientation="Landscape" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="c70059dd-30ad-4a4e-8df1-21729e1dd3e4">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dblocal"/>
 	<property name="com.jaspersoft.studio.unit." value="mm"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local Database"/>
 	<parameter name="kodetransaksi" class="java.lang.String"/>
 	<parameter name="kodeproduk" class="java.lang.String"/>
-	<parameter name="produkPath" class="java.lang.String"/>
 	<parameter name="imagePath" class="java.lang.String"/>
+	<parameter name="produkPath" class="java.lang.String"/>
+	<parameter name="svgPath" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT tr.kodetransaksi, pl.nama AS namapelanggan, pl.alamat, pl.kontak, pg.nama AS namauser, pr.kodeproduk, pr.nama AS namaproduk, pr.berat, pr.karat, pr.harga_jual, pr.image_produk,tr.total,kr.terbilang, pg.nama as namapegawai, kr.total AS keranjangtotal FROM `dbtokoemasunggulkencana`.produk pr
+		<![CDATA[SELECT tr.kodetransaksi, pl.nama AS namapelanggan, pl.alamat, pl.kontak, pg.nama AS namauser, pr.kodeproduk, pr.nama AS namaproduk, pr.berat, pr.karat, pr.harga_jual, pr.image_produk,tr.total,tr.terbilang, pg.nama as namapegawai, kr.total AS keranjangtotal FROM `dbtokoemasunggulkencana`.produk pr
 JOIN `dbtokoemasunggulkencana`.keranjang kr ON pr.id = kr.produk_id
 JOIN `dbtokoemasunggulkencana`.transaksi tr ON kr.kodekeranjang = tr.kodekeranjang_id
 JOIN `dbtokoemasunggulkencana`.pelanggan pl ON tr.pelanggan_id = pl.id
@@ -81,7 +82,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 	<field name="terbilang" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="terbilang"/>
 		<property name="com.jaspersoft.studio.field.label" value="terbilang"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="keranjang"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="transaksi"/>
 	</field>
 	<field name="namapegawai" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nama"/>
@@ -101,124 +102,124 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 			<staticText>
 				<reportElement x="414" y="29" width="40" height="12" uuid="9af0482b-a02c-4a28-9401-3f092544f465"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Alamat]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="414" y="41" width="40" height="12" uuid="98e7f83e-800b-4af3-8aed-a57a033bbcef"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Telp]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="414" y="5" width="163" height="12" uuid="33b23f37-bdc7-47dd-b647-c0316bb905c3"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Purwokerto, " + new java.text.SimpleDateFormat("dd MMMM yyyy", new java.util.Locale("id","ID")).format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="414" y="17" width="40" height="12" uuid="0912bbed-0474-4110-92a5-92c6595381bc"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Mr/Mrs]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="454" y="41" width="3" height="12" uuid="af1ab620-712d-47b9-8cda-94b513f5f470"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="454" y="17" width="3" height="12" uuid="2e03d9c4-2015-4df3-92eb-175edb7a07b6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="454" y="29" width="3" height="12" uuid="c0313aaf-72aa-451c-a592-d6ceb87afc17"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="7" isBold="true"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="462" y="17" width="110" height="12" uuid="7a0357fb-5851-4f49-a3f1-5c7bbefc6b24"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namapelanggan}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="462" y="29" width="110" height="12" uuid="7c6269f8-37f7-45d9-b5b4-7c8ab7e1b10a"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{alamat}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="462" y="41" width="110" height="12" uuid="b8aa14ea-3f13-4b0c-ab07-34aaf5b693e5"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kontak}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="10" y="0" width="389" height="90" uuid="f8240caf-2fd7-4d8a-ae9f-2b8d5d84d3aa"/>
+				<imageExpression><![CDATA[$P{imagePath}]]></imageExpression>
+			</image>
 			<componentElement>
-				<reportElement positionType="FixRelativeToBottom" x="414" y="58" width="163" height="30" uuid="fe0f7076-3e24-4ddc-94aa-76b934efb349"/>
+				<reportElement positionType="FixRelativeToBottom" x="414" y="63" width="163" height="24" uuid="fe0f7076-3e24-4ddc-94aa-76b934efb349"/>
 				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0">
 					<jr:codeExpression><![CDATA[$F{kodetransaksi}]]></jr:codeExpression>
 				</jr:Code128>
 			</componentElement>
-			<image>
-				<reportElement x="10" y="0" width="389" height="90" uuid="f8240caf-2fd7-4d8a-ae9f-2b8d5d84d3aa"/>
-				<imageExpression><![CDATA[$P{imagePath}+"LOGOHEADER.jpg"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="26" splitType="Stretch">
+		<band height="25" splitType="Stretch">
 			<staticText>
-				<reportElement x="63" y="0" width="3" height="12" uuid="d0d96a6c-5f9d-4487-ab7f-48e8e9d50d67"/>
+				<reportElement x="63" y="1" width="3" height="12" uuid="d0d96a6c-5f9d-4487-ab7f-48e8e9d50d67"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="0" width="53" height="12" uuid="fd3dc9b8-c5da-4895-9495-aae60a504998"/>
+				<reportElement x="10" y="1" width="53" height="12" uuid="fd3dc9b8-c5da-4895-9495-aae60a504998"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Sales]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="63" y="12" width="3" height="12" uuid="e26b29a6-e07f-4563-8e08-640dc6f9ac1f"/>
+				<reportElement x="63" y="13" width="3" height="12" uuid="e26b29a6-e07f-4563-8e08-640dc6f9ac1f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="12" width="53" height="12" uuid="d603dd71-b116-44ab-a008-5c1ed3484b53"/>
+				<reportElement x="10" y="13" width="53" height="12" uuid="d603dd71-b116-44ab-a008-5c1ed3484b53"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[ID Transaksi]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="70" y="12" width="134" height="12" uuid="db0874fb-8d86-4b3f-8b01-ff5d4bf7d29b"/>
+				<reportElement x="70" y="13" width="134" height="12" uuid="db0874fb-8d86-4b3f-8b01-ff5d4bf7d29b"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kodetransaksi}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="0" width="134" height="12" uuid="2584658c-157f-4fac-92b4-4c57c9591f6e"/>
+				<reportElement x="70" y="1" width="134" height="12" uuid="2584658c-157f-4fac-92b4-4c57c9591f6e"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
@@ -246,7 +247,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[KODE PRODUK]]></text>
 			</staticText>
@@ -262,7 +263,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[NAMA]]></text>
 			</staticText>
@@ -278,7 +279,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[BERAT]]></text>
 			</staticText>
@@ -294,7 +295,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[KARAT]]></text>
 			</staticText>
@@ -310,7 +311,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[@GRAM]]></text>
 			</staticText>
@@ -326,7 +327,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
@@ -386,7 +387,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{berat}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{berat}+" gram"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="293" y="-2" width="68" height="30" uuid="75263c3a-c7c0-457b-ac69-aeb74bc1e461">
@@ -402,7 +403,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{karat}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{karat}+" K"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="361" y="-2" width="68" height="30" uuid="495552b1-2158-4a7e-ad43-18b5970b4e78">
@@ -439,12 +440,12 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 			<rectangle>
 				<reportElement x="496" y="-30" width="87" height="78" backcolor="#FEC241" uuid="56fb4b05-3d3b-4e77-b414-6d8ce8170196"/>
 				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#030202"/>
+					<pen lineWidth="0.0" lineColor="#030202"/>
 				</graphicElement>
 			</rectangle>
 			<image hAlign="Center" vAlign="Middle">
-				<reportElement x="504" y="-29" width="70" height="75" uuid="4bb544cc-9739-4626-aa5c-c2172d9e4099"/>
-				<imageExpression><![CDATA["http://127.0.0.1:8000/storage/produk/"+$F{image_produk}]]></imageExpression>
+				<reportElement x="504" y="-28" width="70" height="75" uuid="4bb544cc-9739-4626-aa5c-c2172d9e4099"/>
+				<imageExpression><![CDATA[$P{produkPath}+$F{image_produk}]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="93" y="28" width="403" height="20" uuid="c7481ed5-f9a2-46bc-a5ff-08f7278ee9ba">
@@ -458,7 +459,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="9" isBold="true"/>
+					<font fontName="SansSerif" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{terbilang}]]></textFieldExpression>
 			</textField>
@@ -472,7 +473,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="9" isBold="true"/>
+					<font fontName="SansSerif" size="9"/>
 				</textElement>
 				<text><![CDATA[TERBILANG]]></text>
 			</staticText>
@@ -514,7 +515,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 			</staticText>
 			<image hAlign="Center" vAlign="Middle" onErrorType="Icon">
 				<reportElement x="447" y="78" width="16" height="19" uuid="c26e910b-502c-46dc-9032-02f73cd2b3ab"/>
-				<imageExpression><![CDATA[$P{imagePath}+"icons/instagram.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{svgPath}]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="464" y="80" width="106" height="14" uuid="f68c96ae-cc31-4948-bcda-6c3e2bdbe414"/>

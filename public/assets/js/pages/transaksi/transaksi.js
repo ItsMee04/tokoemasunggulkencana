@@ -187,7 +187,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Kirim permintaan hapus (gunakan itemId)
-                fetch(`/admin/transaksi/konfirmasiPembatalanPembayaran/${deleteID}`, {
+                fetch(`/api/transaksi/konfirmasiPembatalanPembayaran/${deleteID}`, {
                     method: "GET",
                     headers: {
                         'Authorization': 'Bearer ' + token

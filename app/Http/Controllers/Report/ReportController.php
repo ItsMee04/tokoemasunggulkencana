@@ -91,11 +91,12 @@ class ReportController extends Controller
         $kodetransaksi  = $request->kodetransaksi;
         $kodeproduk     = $request->kodeproduk;
         // // Paths
-        $jrxmlPath = storage_path('app/reports/nota/CetakSuratBarang.jrxml');
+        $jrxmlPath = storage_path('app/reports/nota/CetakSuratBarang.jasper');
         $outputDir = public_path('nota');
         $outputFileName = 'CetakSuratBarang.pdf';
-        $imagePath = public_path('assets/img/');
+        $imagePath = public_path('assets/img/LOGOHEADER.jpg');
         $produkPath = public_path('storage/produk/');
+        $svgPath = public_path('assets/img/icons/instagram.png');
 
         // Ensure output directory exists
         if (!file_exists($outputDir)) {
@@ -113,21 +114,21 @@ class ReportController extends Controller
         $dbPass = config('database.connections.mysql.password');
 
         // Compile command
-        $compileCommand = escapeshellcmd("{$jasperstarterCmd} compile \"{$jrxmlPath}\"");
+        // $compileCommand = escapeshellcmd("{$jasperstarterCmd} compile \"{$jrxmlPath}\"");
 
         // Generate command with DB params
         $generateCommand = "\"{$jasperstarterCmd}\" process \"{$jrxmlPath}\" -o \"{$outputDir}\" -f pdf -t mysql"
             . " -u \"{$dbUser}\" -p \"{$dbPass}\" -H \"{$dbHost}\" -n \"{$dbName}\" --db-port=\"{$dbPort}\""
-            . " -P kodetransaksi=\"{$kodetransaksi}\" kodeproduk=\"{$kodeproduk}\" produkPath=\"{$produkPath}\" imagePath=\"{$imagePath}\"";
+            . " -P kodetransaksi=\"{$kodetransaksi}\" kodeproduk=\"{$kodeproduk}\" produkPath=\"{$produkPath}\" imagePath=\"{$imagePath}\" svgPath=\"{$svgPath}\"";
 
         try {
             // Compile jrxml to jasper
-            Log::info("Running compile command: {$compileCommand}");
-            exec($compileCommand, $compileOutput, $compileReturnVar);
-            if ($compileReturnVar !== 0) {
-                Log::error('Compile failed: ' . implode("\n", $compileOutput));
-                return response('Failed to compile report.', 500);
-            }
+            // Log::info("Running compile command: {$compileCommand}");
+            // exec($compileCommand, $compileOutput, $compileReturnVar);
+            // if ($compileReturnVar !== 0) {
+            //     Log::error('Compile failed: ' . implode("\n", $compileOutput));
+            //     return response('Failed to compile report.', 500);
+            // }
 
             // Generate report PDF
             Log::info("Running generate command: {$generateCommand}");
