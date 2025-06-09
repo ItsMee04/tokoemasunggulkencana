@@ -340,29 +340,35 @@ $(document).ready(function () {
         const kodetransaksi = $(this).data("kodetransaksi");
         const kodeproduk = $(this).data("kodeproduk");
 
-        // Buat form dinamis
-        const form = $('<form>', {
+        const token = localStorage.getItem('token');
+
+        fetch('/api/report/cetakSuratBarang', {
             method: 'POST',
-            action: '/admin/report/cetakSuratBarang',
-            target: '_blank' // buka di tab baru
-        });
-
-        // Tambahkan CSRF token
-        const csrfToken = $('meta[name="csrf-token"]').attr('content');
-        form.append($('<input>', {
-            type: 'hidden',
-            name: '_token',
-            value: csrfToken
-        }));
-
-        // Tambahkan data
-        form.append($('<input>', { type: 'hidden', name: 'kodeproduk', value: kodeproduk }));
-        form.append($('<input>', { type: 'hidden', name: 'kodetransaksi', value: kodetransaksi }));
-
-        // Submit form
-        $('body').append(form);
-        form.submit();
-        form.remove();
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/pdf'
+            },
+            body: JSON.stringify({
+                kodetransaksi: kodetransaksi,
+                kodeproduk: kodeproduk
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text); });
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                window.open(url, '_blank'); // Tampilkan PDF di tab baru
+                setTimeout(() => window.URL.revokeObjectURL(url), 10000); // Bersihkan URL
+            })
+            .catch(error => {
+                console.error('Gagal mencetak surat barang:', error);
+                alert('Gagal mencetak surat barang: ' + error.message);
+            });
     });
 
 

@@ -179,8 +179,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('stoknampan/getNampanStok', [StokNampanController::class, 'getNampanStok']);
         Route::get('stoknampan/getDetailNampanStok/{id}', [StokNampanController::class, 'detailNampanStok']);
 
-        //API STOK NAMPAN
+        //API STOK REPORT
         Route::post('report/cetakBarcodeProduk', [ReportController::class, 'cetakBarcodeProduk']);
+        Route::post('report/cetakSuratBarang', [ReportController::class, 'cetakSuratBarang']);
     });
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);

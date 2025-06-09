@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CetakBarcode" language="javascript" columnCount="2" pageWidth="226" pageHeight="68" orientation="Landscape" columnWidth="78" columnSpacing="70" leftMargin="0" rightMargin="0" topMargin="5" bottomMargin="5" uuid="978bf772-5c0d-4e97-8b50-f723717c7c94">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CetakBarcode" language="javascript" columnCount="2" pageWidth="226" pageHeight="68" orientation="Landscape" columnWidth="75" columnSpacing="70" leftMargin="0" rightMargin="5" topMargin="5" bottomMargin="5" uuid="978bf772-5c0d-4e97-8b50-f723717c7c94">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local Database"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="produkList" class="java.lang.String"/>
@@ -8,8 +8,7 @@
 	<queryString>
 		<![CDATA[SELECT kodeproduk, berat, karat, lingkar, panjang 
 FROM `dbtokoemasunggulkencana`.produk 
-WHERE kodeproduk IN ($P!{produkList})
-]]>
+WHERE kodeproduk IN ($P!{produkList})]]>
 	</queryString>
 	<field name="kodeproduk" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="kodeproduk"/>
@@ -40,65 +39,65 @@ WHERE kodeproduk IN ($P!{produkList})
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="42" splitType="Stretch">
+		<band height="55" splitType="Stretch">
 			<staticText>
-				<reportElement x="29" y="1" width="22" height="10" uuid="901f47dc-dd1f-48a9-8f7b-1d98a98ca212"/>
+				<reportElement x="29" y="3" width="22" height="10" uuid="901f47dc-dd1f-48a9-8f7b-1d98a98ca212"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[ BERAT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="29" y="11" width="22" height="10" uuid="c2fb101f-3f8c-4348-8f8a-8bbbc462886e"/>
+				<reportElement x="29" y="13" width="22" height="10" uuid="c2fb101f-3f8c-4348-8f8a-8bbbc462886e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[ KARAT]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="51" y="1" width="27" height="10" uuid="b1d9c082-3d3d-4320-b171-b8bd4e73b356"/>
+				<reportElement x="51" y="3" width="27" height="10" uuid="b1d9c082-3d3d-4320-b171-b8bd4e73b356"/>
 				<textElement verticalAlignment="Middle">
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" : "+$F{berat}+" gram"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="51" y="11" width="27" height="10" uuid="5804a7cc-79fa-4587-8674-96d00f9c410e"/>
+				<reportElement x="51" y="13" width="27" height="10" uuid="5804a7cc-79fa-4587-8674-96d00f9c410e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" : "+$F{karat}+" K"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="51" y="32" width="27" height="10" uuid="9405fe56-cb06-4faa-ab57-f477bca1eb31"/>
+				<reportElement x="51" y="42" width="27" height="10" uuid="9405fe56-cb06-4faa-ab57-f477bca1eb31"/>
 				<textElement verticalAlignment="Middle">
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" : "+$F{panjang}+" cm"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="51" y="22" width="27" height="10" uuid="8b088070-fb7a-4408-b540-759b234fc9b1"/>
+				<reportElement x="51" y="32" width="27" height="10" uuid="8b088070-fb7a-4408-b540-759b234fc9b1"/>
 				<textElement verticalAlignment="Middle">
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" : "+$F{lingkar}+" cm"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="29" y="32" width="22" height="10" uuid="d5ad8d55-bea0-4458-82fe-15574ac99bb0"/>
+				<reportElement x="29" y="42" width="22" height="10" uuid="d5ad8d55-bea0-4458-82fe-15574ac99bb0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[ LONG]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="29" y="22" width="22" height="10" uuid="e4fb54a9-b60c-4951-9471-73aaaac9bfc5"/>
+				<reportElement x="29" y="32" width="22" height="10" uuid="e4fb54a9-b60c-4951-9471-73aaaac9bfc5"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[ SIZE]]></text>
 			</staticText>
 			<image hAlign="Center" vAlign="Middle">
-				<reportElement x="0" y="1" width="29" height="22" uuid="524bab15-b1e6-4e94-912e-d443d5a2d7c9"/>
+				<reportElement x="0" y="3" width="29" height="22" uuid="524bab15-b1e6-4e94-912e-d443d5a2d7c9"/>
 				<imageExpression><![CDATA[$P{barcodePath}+$F{kodeproduk}+".png"]]></imageExpression>
 			</image>
 		</band>
