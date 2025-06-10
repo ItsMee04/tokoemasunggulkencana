@@ -53,6 +53,7 @@ class PerbaikanController extends Controller
             ->update([
                 'status'        => 2,
                 'kondisi_id'    => 1,
+                'tanggalkeluar' => Carbon::now(),
                 'keterangan'    => "Produk Berhasil Diperbaiki, Tanggal Keluar " . Carbon::now(),
             ]);
 
