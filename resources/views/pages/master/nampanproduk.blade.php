@@ -64,19 +64,14 @@
                                 data-feather="rotate-ccw" class="feather-rotate-ccw"></i></a>
                     </li>
                     <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i
-                                data-feather="chevron-up" class="feather-chevron-up"></i></a>
+                        <a data-bs-toggle="tooltip" id="closeFrame" data-bs-placement="top" title="Close"><i
+                                data-feather="x-circle" class="feather-x-circle"></i></a>
                     </li>
                 </ul>
                 <div class="page-btn">
                     <a class="btn btn-added" id="btnTambahProduk"><i data-feather="plus-circle"
                             class="me-2"></i>TAMBAH
                         PRODUK</a>
-                </div>
-                <div class="page-btn import">
-                    <a onclick="history.back();" class="btn btn-added btn-secondary" data-bs-toggle="modal"
-                        data-bs-target="#view-notes"><i data-feather="chevrons-left" class="me-2"></i> KEMBALI KE
-                        NAMPAN</a>
                 </div>
             </div>
 

@@ -63,8 +63,8 @@
                                 data-feather="rotate-ccw" class="feather-rotate-ccw"></i></a>
                     </li>
                     <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Close"><i data-feather="x-circle"
-                                class="feather-x-circle"></i></a>
+                        <a data-bs-toggle="tooltip" id="closeFrame" data-bs-placement="top" title="Close"><i
+                                data-feather="x-circle" class="feather-x-circle"></i></a>
                     </li>
                 </ul>
             </div>

@@ -146,7 +146,6 @@ $(document).ready(function () {
         const data = event.data;
 
         if (data.action === 'closeIframeModal') {
-            // Jalankan fungsi close modal iframe dari parent
             $('#iframePage').attr('src', '');
             $('#popupIframeContent').fadeOut();
         }

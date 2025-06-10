@@ -20,10 +20,6 @@
                                 data-feather="chevron-up" class="feather-chevron-up"></i></a>
                     </li>
                 </ul>
-                <div class="page-btn">
-                    <a class="btn btn-added" id="btnTambahNampan"><i data-feather="plus-circle" class="me-2"></i>TAMBAH
-                        NAMPAN</a>
-                </div>
             </div>
 
             <div class="card table-list-card">
@@ -172,17 +168,12 @@
         .custom-modal-content-area {
             position: fixed;
             top: 66px;
-            /* Sesuaikan dengan header */
             left: 260px;
-            /* Sesuaikan dengan sidebar */
             width: calc(100% - 260px);
-            /* Lebar konten tanpa sidebar */
             height: calc(100% - 66px);
-            /* Tinggi konten tanpa header */
             background: #FAFBFE;
             z-index: 9999;
             display: none;
-            /* Awalnya sembunyi */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -192,18 +183,55 @@
             height: 100%;
         }
 
+        .iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            /* ✅ Padding content 20px */
+            box-sizing: border-box;
+        }
+
         #iframePage {
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        .iframe-wrapper {
-            width: 100%;
-            height: 100%;
-            padding: 20px;
-            /* atau sesuai kebutuhan */
-            box-sizing: border-box;
+        .iframe-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 20px;
+            line-height: 28px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 10000;
+        }
+
+        /* Responsive untuk tablet dan mobile */
+        @media (max-width: 991.98px) {
+            .custom-modal-content-area {
+                top: 56px;
+                left: 0;
+                width: 100%;
+                height: calc(100% - 56px);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .iframe-close-btn {
+                top: 6px;
+                right: 6px;
+                width: 28px;
+                height: 28px;
+                font-size: 18px;
+            }
         }
     </style>
 

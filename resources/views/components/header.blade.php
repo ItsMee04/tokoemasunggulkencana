@@ -53,11 +53,6 @@
         </li>
         <!-- /Search -->
 
-        <li style="width: 950px">
-            <marquee><b class="text-secondary">TOKO EMAS UNGGUL KENCANA, RUKO N0. 8, JL. PATIMURA, KARANGLEWAS,
-                    PURWOKERTO, BANYUMAS, JAWA TENGAH, 0822-2537-7888</b></marquee>
-        </li>
-
         <li class="nav-item nav-item-box">
             <a href="javascript:void(0);" id="btnFullscreen">
                 <i data-feather="maximize"></i>

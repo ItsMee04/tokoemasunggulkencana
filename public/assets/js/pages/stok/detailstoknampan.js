@@ -106,8 +106,8 @@ $(document).ready(function () {
         }
     }
 
-    $(document).on("click", "#closeFrame", function () {
-        // Kirim pesan ke parent
-        window.parent.postMessage({ action: 'closeIframeModal' }, '*'); // Ganti '*' dengan origin jika ingin lebih aman
+    $(document).on('click', '#closeFrame', function () {
+        // Kirim pesan ke parent window
+        window.parent.postMessage({ action: 'closeIframeModal' }, '*');
     });
 })
