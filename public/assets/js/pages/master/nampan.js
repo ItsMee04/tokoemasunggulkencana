@@ -354,7 +354,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Kirim permintaan hapus (gunakan itemId)
-                fetch(`/admin/nampan/tutupNampan/${deleteID}`, {
+                fetch(`/api/nampan/tutupNampan/${deleteID}`, {
                     method: "GET",
                     headers: {
                         'Authorization': 'Bearer ' + token

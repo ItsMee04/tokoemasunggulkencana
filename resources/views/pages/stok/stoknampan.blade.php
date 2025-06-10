@@ -159,6 +159,54 @@
     </div>
     <!-- /details popup -->
 
+    <!-- Modal Iframe Khusus Content -->
+    <div id="popupIframeContent" class="custom-modal-content-area">
+        <div class="popup-inner">
+            <div class="iframe-wrapper">
+                <iframe src="" id="iframePage" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .custom-modal-content-area {
+            position: fixed;
+            top: 66px;
+            /* Sesuaikan dengan header */
+            left: 260px;
+            /* Sesuaikan dengan sidebar */
+            width: calc(100% - 260px);
+            /* Lebar konten tanpa sidebar */
+            height: calc(100% - 66px);
+            /* Tinggi konten tanpa header */
+            background: #FAFBFE;
+            z-index: 9999;
+            display: none;
+            /* Awalnya sembunyi */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #iframePage {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            /* atau sesuai kebutuhan */
+            box-sizing: border-box;
+        }
+    </style>
+
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/stok/stoknampan.js') }}"></script>
 @endsection

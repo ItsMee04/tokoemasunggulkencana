@@ -126,8 +126,29 @@ $(document).ready(function () {
 
     // Ketika tombol detail produk ditekan
     $(document).on("click", ".btn-detail", function () {
-        const nampanID = $(this).data("id");
-        const url = `/admin/stok/nampanstok/detailNampanStok/${nampanID}`; // Sesuaikan dengan route Laravel
-        window.location.href = url;
+        const nampanProdukID = $(this).data("id");
+        const urlNampanProduk = `detailstoknampan`; // tanpa query param
+        openIframeModal(urlNampanProduk, nampanProdukID);
+    });
+
+    function openIframeModal(url, nampanProdukID) {
+        $('#iframePage').attr('src', url);
+        $('#popupIframeContent').fadeIn();
+
+        // Setelah iframe selesai dimuat, kirim data
+        $('#iframePage').on('load', function () {
+            const iframeWindow = this.contentWindow;
+            iframeWindow.postMessage({ nampanProdukID }, '*'); // bisa ganti '*' dengan origin jika mau aman
+        });
+    }
+
+    window.addEventListener('message', function (event) {
+        const data = event.data;
+
+        if (data.action === 'closeIframeModal') {
+            // Jalankan fungsi close modal iframe dari parent
+            $('#iframePage').attr('src', '');
+            $('#popupIframeContent').fadeOut();
+        }
     });
 });

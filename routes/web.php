@@ -132,9 +132,14 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         return view('pages.transaksi.perbaikan');
     })->name('admin.perbaikan');
 
-    //Route View Perbaikan
+    //Route View stok
     Route::get('/stoknampan', function () {
         return view('pages.stok.stoknampan');
+    })->name('admin.stoknampan');
+
+    //Route View Perbaikan
+    Route::get('/detailstoknampan', function () {
+        return view('pages.stok.detailstoknampan');
     })->name('admin.stoknampan');
 });
 
