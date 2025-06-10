@@ -223,7 +223,7 @@ class ReportController extends Controller
         $kodetransaksi  = $request->kodepembelian;
 
         // Path file JRXML
-        $jrxmlPath = storage_path('app/reports/nota/cetakNotaPembelian.jrxml');
+        $jrxmlPath = storage_path('app/reports/nota/cetakNotaPembelian.jasper');
         $outputDir = public_path('nota');
         $outputFileName = 'cetakNotaPembelian.pdf';
         $imagePath = public_path('assets/img/LOGOHEADER.jpg');
@@ -246,7 +246,7 @@ class ReportController extends Controller
         $dbPass = config('database.connections.mysql.password');
 
         // Compile command (dijalankan sekali jika belum ada .jasper)
-        $compileCommand = "\"{$jasperstarterCmd}\" compile \"{$jrxmlPath}\"";
+        // $compileCommand = "\"{$jasperstarterCmd}\" compile \"{$jrxmlPath}\"";
 
         // Generate command JasperStarter
         $generateCommand = "\"{$jasperstarterCmd}\" process \"{$jrxmlPath}\" -o \"{$outputDir}\" -f pdf -t mysql"
@@ -255,12 +255,12 @@ class ReportController extends Controller
 
         try {
             // Compile jrxml jadi .jasper
-            Log::info("Compile command: {$compileCommand}");
-            exec($compileCommand, $compileOutput, $compileReturnVar);
-            if ($compileReturnVar !== 0) {
-                Log::error("Compile error: " . implode("\n", $compileOutput));
-                return response('Gagal compile JRXML.', 500);
-            }
+            // Log::info("Compile command: {$compileCommand}");
+            // exec($compileCommand, $compileOutput, $compileReturnVar);
+            // if ($compileReturnVar !== 0) {
+            //     Log::error("Compile error: " . implode("\n", $compileOutput));
+            //     return response('Gagal compile JRXML.', 500);
+            // }
 
             // Jalankan proses generate PDF
             Log::info("Generate command: {$generateCommand}");
