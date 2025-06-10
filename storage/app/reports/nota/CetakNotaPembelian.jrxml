@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CetakNotaPembelian" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="9d767c28-70ab-4bb2-b67f-2642cae0d668">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local Database"/>
+	<property name="com.jaspersoft.studio.unit." value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
+	<parameter name="kodepembelian" class="java.lang.String"/>
+	<parameter name="imagePath" class="java.lang.String"/>
+	<parameter name="svgPath" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+	pm.kodepembelian,
+	pm.tanggal,
+	pm.total_harga AS totalpembelian,
+	pm.terbilang,
+	
+	COALESCE(pl.nama, sp.nama, pm.nonsuplierdanpembeli) AS nama_pihak,
+	COALESCE(pl.alamat, sp.alamat, '-') AS alamat_pihak,
+	COALESCE(pl.kontak, sp.kontak, '-') AS kontak_pihak,
+	
+	pg.nama AS namapegawai,
+
+	pmr.kodeproduk, 
+	pmr.nama AS namaproduk,
+	pmr.harga_beli,
+	pmr.harga_jual,
+	pmr.berat,
+	pmr.karat,
+	pmr.lingkar,
+	pmr.panjang,
+	pmr.keterangan,
+	k.kondisi,
+	pmr.subtotalharga,
+	
+	(SELECT SUM(subt.subtotalharga)
+		FROM `dbtokoemasunggulkencana`.pembelian_produk subt 
+		WHERE subt.kodepembelianproduk = pmr.kodepembelianproduk
+	) AS total_keranjang
+	
+	FROM `dbtokoemasunggulkencana`.pembelian pm
+	JOIN `dbtokoemasunggulkencana`.pembelian_produk pmr on pm.kodepembelianproduk = pmr.kodepembelianproduk
+	
+	LEFT JOIN `dbtokoemasunggulkencana`.pelanggan pl ON pm.pelanggan_id = pl.id
+	LEFT JOIN `dbtokoemasunggulkencana`.suplier sp ON pm.suplier_id = sp.id
+	
+	LEFT JOIN `dbtokoemasunggulkencana`.users us ON pm.oleh = us.id
+	LEFT JOIN `dbtokoemasunggulkencana`.pegawai pg ON us.pegawai_id = pg.id
+	
+	LEFT JOIN`dbtokoemasunggulkencana`. kondisi k ON pmr.kondisi_id = k.id
+	
+	WHERE pm.kodepembelian =  $P{kodepembelian}]]>
+	</queryString>
+	<field name="kodepembelian" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="kodepembelian"/>
+		<property name="com.jaspersoft.studio.field.label" value="kodepembelian"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian"/>
+	</field>
+	<field name="tanggal" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="tanggal"/>
+		<property name="com.jaspersoft.studio.field.label" value="tanggal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian"/>
+	</field>
+	<field name="totalpembelian" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="total_harga"/>
+		<property name="com.jaspersoft.studio.field.label" value="totalpembelian"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian"/>
+	</field>
+	<field name="terbilang" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="terbilang"/>
+		<property name="com.jaspersoft.studio.field.label" value="terbilang"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian"/>
+	</field>
+	<field name="nama_pihak" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_pihak"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama_pihak"/>
+	</field>
+	<field name="alamat_pihak" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="alamat_pihak"/>
+		<property name="com.jaspersoft.studio.field.label" value="alamat_pihak"/>
+	</field>
+	<field name="kontak_pihak" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="kontak_pihak"/>
+		<property name="com.jaspersoft.studio.field.label" value="kontak_pihak"/>
+	</field>
+	<field name="namapegawai" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama"/>
+		<property name="com.jaspersoft.studio.field.label" value="namapegawai"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pegawai"/>
+	</field>
+	<field name="kodeproduk" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="kodeproduk"/>
+		<property name="com.jaspersoft.studio.field.label" value="kodeproduk"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="namaproduk" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama"/>
+		<property name="com.jaspersoft.studio.field.label" value="namaproduk"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="harga_beli" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="harga_beli"/>
+		<property name="com.jaspersoft.studio.field.label" value="harga_beli"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="harga_jual" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="harga_jual"/>
+		<property name="com.jaspersoft.studio.field.label" value="harga_jual"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="berat" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="berat"/>
+		<property name="com.jaspersoft.studio.field.label" value="berat"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="karat" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="karat"/>
+		<property name="com.jaspersoft.studio.field.label" value="karat"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="lingkar" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="lingkar"/>
+		<property name="com.jaspersoft.studio.field.label" value="lingkar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="panjang" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="panjang"/>
+		<property name="com.jaspersoft.studio.field.label" value="panjang"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="keterangan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="keterangan"/>
+		<property name="com.jaspersoft.studio.field.label" value="keterangan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="kondisi" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="kondisi"/>
+		<property name="com.jaspersoft.studio.field.label" value="kondisi"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="kondisi"/>
+	</field>
+	<field name="subtotalharga" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="subtotalharga"/>
+		<property name="com.jaspersoft.studio.field.label" value="subtotalharga"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pembelian_produk"/>
+	</field>
+	<field name="total_keranjang" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_keranjang"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_keranjang"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="586" height="100" uuid="236b5e14-4258-469f-b3bc-b3d3b220df85"/>
+			</frame>
+			<image>
+				<reportElement x="10" y="0" width="389" height="90" uuid="b70cfdd1-5c86-4d9a-b347-5315cf9c3b60"/>
+				<imageExpression><![CDATA[$P{imagePath}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="414" y="29" width="40" height="12" uuid="c8e980de-6cee-4abe-a3a8-42c5719ff9da"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="41" width="40" height="12" uuid="8c3eab87-30eb-41e6-b93f-82852d59ae62"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Telp]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="414" y="5" width="163" height="12" uuid="74383021-0bd9-4a2a-9145-e8779db30b22"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Purwokerto, " + new java.text.SimpleDateFormat("dd MMMM yyyy", new java.util.Locale("id","ID")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="414" y="17" width="40" height="12" uuid="f5a7f4f2-b86f-4a81-8c55-d74521caad62"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Mr/Mrs]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="41" width="3" height="12" uuid="6998cb50-8a0a-4a21-8875-51341c596d3f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="17" width="3" height="12" uuid="adc02264-f692-4f97-b2f8-a88de8114040"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="29" width="3" height="12" uuid="eb7daa9b-9fae-4d1c-83fa-c45cf18cc730"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="462" y="17" width="110" height="12" uuid="0944cfbf-06b2-4625-927a-881dd26d68e7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama_pihak}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="462" y="29" width="110" height="12" uuid="162faf4d-7177-4380-8f48-aef4cb53da69"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alamat_pihak}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="462" y="41" width="110" height="12" uuid="43a907e1-8f54-4f3b-b9ef-2b1c0dff7d21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kontak_pihak}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement positionType="FixRelativeToBottom" x="414" y="58" width="163" height="30" uuid="a1fd5fce-946f-47b1-aef0-4b74274ddd49"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0">
+					<jr:codeExpression><![CDATA[$F{kodepembelian}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="34" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+			<frame>
+				<reportElement x="0" y="0" width="586" height="34" uuid="ac5835b4-2817-4a32-a8c4-1f9bad61fce4"/>
+			</frame>
+			<staticText>
+				<reportElement x="10" y="18" width="53" height="12" uuid="f687a99e-975d-4199-af6a-956b9a670a90"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ID Transaksi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="18" width="3" height="12" uuid="3f070adf-117e-43d2-bcb1-1b754b72e50b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="6" width="134" height="12" uuid="9061d2d8-77f3-4d0b-877b-7452b06f2440"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapegawai}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="6" width="53" height="12" uuid="e39ccc29-4ee7-4e6c-849c-6a847c64d455"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Sales]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="18" width="134" height="12" uuid="13c35777-85eb-4505-ad6b-bc735748956a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kodepembelian}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="63" y="6" width="3" height="12" uuid="a6a3b086-8a41-43dd-9f9d-257823f0ab98"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="85" height="22" backcolor="#FCC040" uuid="87e71c16-9199-47e0-a4b3-5c5fc029d74f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="655b8640-5d47-4063-8993-d2e2d8e6cf2c"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[KODE PRODUK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="85" y="0" width="170" height="22" backcolor="#FCC040" uuid="3c59f0ed-5df2-423c-89ed-1b6bfa40c633">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ba73fcc7-8abc-4fc7-a199-c3165d2605f3"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[NAMA PRODUK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="510" y="0" width="76" height="22" backcolor="#FCC040" uuid="1ce307e8-9377-42de-909e-de2fec717f51">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="89e5ddde-5c3e-408a-bf72-36d86c8e8fec"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="340" y="0" width="85" height="22" backcolor="#FCC040" uuid="fc0fc628-af4f-4e1c-aef7-a116bebbcd60">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb45ca8b-f724-4d3c-831c-8de6e9ec51b9"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[KARAT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="425" y="0" width="85" height="22" backcolor="#FCC040" uuid="ce1a5eb1-c17f-4922-b0cf-216c67a3ff17">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d302e4b7-f2d7-4bf4-aa86-d8b60abc4bfe"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[@GRAM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="255" y="0" width="85" height="22" backcolor="#FCC040" uuid="fb029951-3414-4dca-b420-dd9ffa122a91">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5e9d2a5c-2bf1-4199-9622-8fc5227107e7"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[BERAT]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="85" height="22" uuid="2ba76cda-2073-40cf-9dcf-80ea43a68e57">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="655b8640-5d47-4063-8993-d2e2d8e6cf2c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{kodeproduk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="0" width="170" height="22" uuid="e6acf63e-ce0c-4315-ad50-4a706b128faf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ba73fcc7-8abc-4fc7-a199-c3165d2605f3"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{namaproduk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="255" y="0" width="85" height="22" uuid="aad9a977-f5b5-44bc-be02-d414764a877d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5e9d2a5c-2bf1-4199-9622-8fc5227107e7"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None"/>
+				<textFieldExpression><![CDATA[$F{berat}+" g"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="0" width="85" height="22" uuid="c4c327c3-f86c-45ce-ae85-99ee805c93cc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb45ca8b-f724-4d3c-831c-8de6e9ec51b9"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None"/>
+				<textFieldExpression><![CDATA[$F{karat}+" K"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="0" width="85" height="22" uuid="505101bf-90e1-409c-b148-52ca51bfb37b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d302e4b7-f2d7-4bf4-aa86-d8b60abc4bfe"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None"/>
+				<textFieldExpression><![CDATA["Rp." + new java.text.DecimalFormat("#,##0").format($F{harga_jual})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="510" y="0" width="76" height="22" uuid="2695a028-3982-45e1-8291-f115db433077">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="89e5ddde-5c3e-408a-bf72-36d86c8e8fec"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Rp " + new java.text.DecimalFormat("#,##0").format($F{subtotalharga})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="210">
+			<frame>
+				<reportElement positionType="FixRelativeToBottom" mode="Transparent" x="0" y="0" width="586" height="210" uuid="f9748548-6ee3-4408-b252-4e80c1b53795"/>
+				<textField>
+					<reportElement mode="Opaque" x="86" y="40" width="500" height="20" backcolor="#F6BB3E" uuid="ae58c7fe-ac78-427d-b80b-65394be6c973">
+						<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{terbilang}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="425" y="0" width="85" height="20" backcolor="#F3B93E" uuid="76b655ea-b702-4fea-b28c-25bfdbbb0f65"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<text><![CDATA[SUB TOTAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="425" y="20" width="85" height="20" backcolor="#F3B93E" uuid="427b6e4b-7dc7-4cec-93ff-b85f8b5fc46a"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<text><![CDATA[GRAND TOTAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="40" width="86" height="20" backcolor="#F6BB3E" uuid="38295820-9017-4613-b1eb-25b9a26a6e21"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<text><![CDATA[TERBILANG]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="510" y="20" width="76" height="20" uuid="efa870c3-8225-4869-8645-d760794e1427"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["Rp " + new java.text.DecimalFormat("#,##0").format($F{totalpembelian})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="510" y="0" width="76" height="20" uuid="bbccd08b-4022-4bb9-9984-93617d9e06f9"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["Rp " + new java.text.DecimalFormat("#,##0").format($F{total_keranjang})]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="110" width="429" height="100" uuid="12f1b78b-9d1b-4032-9022-d402caafd079"/>
+					<graphicElement>
+						<pen lineWidth="2.0" lineColor="#FEC241"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="14" y="110" width="100" height="20" uuid="587df37b-89c2-40d9-a39c-98ea96d89e1e"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="11" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[PERHATIAN!]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="14" y="130" width="415" height="74" uuid="ff03976e-2e39-4f6f-b323-d49cd7bbd1d1"/>
+					<box>
+						<pen lineColor="#E0A14F"/>
+						<topPen lineStyle="Solid" lineColor="#E0A14F"/>
+						<leftPen lineStyle="Solid" lineColor="#E0A14F"/>
+						<bottomPen lineStyle="Solid" lineColor="#E0A14F"/>
+						<rightPen lineStyle="Solid" lineColor="#E0A14F"/>
+					</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[1. Tentang kadar emas ditanggung cukup / jika dilebur ada penurunan kadar ± 10 %  
+2. Jika dijual kembali harga menurut pasar dan dipotong ongkos pembuatan barang dalam keadaan rusak dinilai menurut keadaan.  
+3. Harap teliti dalam membeli baik kadar maupun berat timbangan emasnya.  
+4. Toko Kami menjual perhiasan emas dengan kadar 17K, 18K, 21K, 22K, 23K, 24K.  
+5. Tips perawatan emas anda: disarankan untuk menjauhkan semua perhiasan emas anda dari bahan kimia seperti mercury, acid, minyak, salep, dan bahan kimia sejenis.  
+6. Outlet Toko Kami berfungsi sebagai Customer Service yang bertujuan untuk memaksimalkan kepuasan anda dalam pemakaian produk kami.
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="429" y="170" width="156" height="20" uuid="c4ab7290-4d8c-454c-a07e-3a67fbae9575"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<text><![CDATA[UNGGUL KENCANA]]></text>
+				</staticText>
+				<image hAlign="Center" vAlign="Middle" onErrorType="Icon">
+					<reportElement positionType="FixRelativeToBottom" x="452" y="190" width="16" height="19" uuid="93e9c1bb-3092-4f2f-97e5-e40ab70f22a1"/>
+					<imageExpression><![CDATA[$P{svgPath}]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="469" y="192" width="106" height="14" uuid="87f9b4ff-0c3b-4ce9-be69-c45452d54000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="6"/>
+					</textElement>
+					<text><![CDATA[@toko_emas_unggul_kencana]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</summary>
+	<noData>
+		<band height="50"/>
+	</noData>
+</jasperReport>

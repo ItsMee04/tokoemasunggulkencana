@@ -343,11 +343,37 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on("click", "#cetakkodepembelian", function () {
-        const kodeTransaksi = $(this).data("kodepembelian");
-        console.log("Kode Transaksi:", kodeTransaksi);
+    $(document).on("click", "#cetakkodepembelian", function (e) {
+        e.preventDefault();
 
-        // Lakukan aksi lainnya, misalnya cetak
-        window.open(`/admin/report/cetakPembelian/${kodeTransaksi}`, '_blank');
+        const kodeTransaksi = $(this).data("kodepembelian");
+        const token = localStorage.getItem('token');
+
+        fetch('/api/report/cetakNotaPembelian', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/pdf'
+            },
+            body: JSON.stringify({
+                kodepembelian: kodeTransaksi, // FIX: gunakan variabel yang benar
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text); });
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                window.open(url, '_blank');
+                setTimeout(() => window.URL.revokeObjectURL(url), 10000);
+            })
+            .catch(error => {
+                console.error('Gagal mencetak nota pembelian:', error);
+                showToastError("Gagal mencetak nota pembelian: " + error.message);
+            });
     });
 })

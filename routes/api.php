@@ -183,6 +183,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('report/cetakBarcodeProduk', [ReportController::class, 'cetakBarcodeProduk']);
         Route::post('report/cetakSuratBarang', [ReportController::class, 'cetakSuratBarang']);
         Route::post('report/cetakNotaTransaksi', [ReportController::class, 'cetakNotaTransaksi']);
+        Route::post('report/cetakNotaPembelian', [ReportController::class, 'cetakNotaPembelian']);
     });
     //API LOGOUT
     Route::post('/logout', [AuthController::class, 'logoutToken']);

@@ -360,7 +360,6 @@ $(document).ready(function () {
             });
     });
 
-
     $(document).on("click", "#printSuratBarang", function (e) {
         e.preventDefault();
 
