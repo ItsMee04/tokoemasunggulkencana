@@ -326,13 +326,40 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on("click", "#cetakkodetransaksi", function () {
-        const kodeTransaksi = $(this).data("kodetransaksi");
-        console.log("Kode Transaksi:", kodeTransaksi);
+    $(document).on("click", "#cetakkodetransaksi", function (e) {
+        e.preventDefault();
 
-        // Lakukan aksi lainnya, misalnya cetak
-        window.open(`/admin/report/cetakTransaksi/${kodeTransaksi}`, '_blank');
+        const kodeTransaksi = $(this).data("kodetransaksi");
+        const token = localStorage.getItem('token');
+
+        fetch('/api/report/cetakNotaTransaksi', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/pdf'
+            },
+            body: JSON.stringify({
+                kodetransaksi: kodeTransaksi, // FIX: gunakan variabel yang benar
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text); });
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                window.open(url, '_blank');
+                setTimeout(() => window.URL.revokeObjectURL(url), 10000);
+            })
+            .catch(error => {
+                console.error('Gagal mencetak nota transaksi:', error);
+                alert('Gagal mencetak nota transaksi: ' + error.message);
+            });
     });
+
 
     $(document).on("click", "#printSuratBarang", function (e) {
         e.preventDefault();
@@ -370,6 +397,4 @@ $(document).ready(function () {
                 alert('Gagal mencetak surat barang: ' + error.message);
             });
     });
-
-
 })
