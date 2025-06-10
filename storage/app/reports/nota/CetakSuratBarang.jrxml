@@ -10,7 +10,7 @@
 	<parameter name="produkPath" class="java.lang.String"/>
 	<parameter name="svgPath" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT tr.kodetransaksi, pl.nama AS namapelanggan, pl.alamat, pl.kontak, pg.nama AS namauser, pr.kodeproduk, pr.nama AS namaproduk, pr.berat, pr.karat, pr.harga_jual, pr.image_produk,tr.total,tr.terbilang, pg.nama as namapegawai, kr.total AS keranjangtotal FROM `dbtokoemasunggulkencana`.produk pr
+		<![CDATA[SELECT tr.kodetransaksi, pl.nama AS namapelanggan, pl.alamat, pl.kontak, pg.nama AS namauser, pr.kodeproduk, pr.nama AS namaproduk, pr.berat, pr.karat, pr.harga_jual, pr.image_produk,tr.total,kr.terbilang, pg.nama as namapegawai, kr.total AS keranjangtotal FROM `dbtokoemasunggulkencana`.produk pr
 JOIN `dbtokoemasunggulkencana`.keranjang kr ON pr.id = kr.produk_id
 JOIN `dbtokoemasunggulkencana`.transaksi tr ON kr.kodekeranjang = tr.kodekeranjang_id
 JOIN `dbtokoemasunggulkencana`.pelanggan pl ON tr.pelanggan_id = pl.id
@@ -82,7 +82,7 @@ WHERE tr.kodetransaksi = $P{kodetransaksi}   AND pr.kodeproduk =  $P{kodeproduk}
 	<field name="terbilang" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="terbilang"/>
 		<property name="com.jaspersoft.studio.field.label" value="terbilang"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="transaksi"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="keranjang"/>
 	</field>
 	<field name="namapegawai" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nama"/>
