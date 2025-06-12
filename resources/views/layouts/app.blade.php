@@ -112,6 +112,11 @@
     <!-- Owl Carousel -->
     <script src="{{ asset('assets/plugins/owlcarousel/owl.carousel.min.js') }}" type="text/javascript"></script>
 
+    <!-- Sticky Bar -->
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}" type="text/javascript">
+    </script>
+
     <!-- Custom JS -->
     <script src="{{ asset('assets/js/script.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/index.js') }}" type="text/javascript"></script>

@@ -133,6 +133,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     })->name('admin.perbaikan');
 
     //Route View stok
+    Route::get('/stokopname', function () {
+        return view('pages.stok.stokopname');
+    })->name('admin.stokopname');
+
+    //Route View stok
     Route::get('/stoknampan', function () {
         return view('pages.stok.stoknampan');
     })->name('admin.stoknampan');

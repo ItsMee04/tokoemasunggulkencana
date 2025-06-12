@@ -167,6 +167,14 @@
                     </b>
                     <ul>
                         <li>
+                            <a href="stokopname" data-menu-title="Stok Opname">
+                                <b>
+                                    <i data-feather="package"></i><span>
+                                        Stok Opname</span>
+                                </b>
+                            </a>
+                        </li>
+                        <li>
                             <a href="stoknampan" data-menu-title="Manage Stock">
                                 <b>
                                     <i data-feather="layers"></i><span>
