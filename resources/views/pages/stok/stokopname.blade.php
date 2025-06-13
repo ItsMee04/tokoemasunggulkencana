@@ -24,24 +24,43 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="settings-wrapper d-flex">
-                        <div class="sidebars settings-sidebar theiaStickySidebar" id="sidebar2">
-                            <div class="sidebar-inner slimscroll">
-                                <div id="sidebar-menu5" class="sidebar-menu">
-                                    <div class="modal-body">
-                                        <div class="row">
+                        <div class="sidebars settings-sidebar mb-2" id="sidebar2"
+                            style="height: 100vh; overflow-y: auto; position: sticky; top: 0;">
+                            <div class="sidebar-inner p-3">
+                                <div class="modal-body">
+                                    <div class="mb-4">
+                                        <h6 class="mb-2">NAMPAN</h6>
+                                        <select class="form-select" name="nampan" id="nampan"></select>
+                                    </div>
+
+                                    <div id="liststokopname" class="mb-4">
+                                        <h6 class="mb-2">Data Stok Opname</h6>
+                                        <ul class="list-group" id="list-so" style="max-height: 250px; overflow-y: auto;">
+                                            <!-- List diisi JS -->
+                                        </ul>
+                                        <div class="text-center mt-2" id="info-so" style="font-size: 14px;"></div>
+                                        <nav aria-label="Page navigation" class="mt-2">
+                                            <ul class="pagination justify-content-center" id="pagination-so"></ul>
+                                        </nav>
+                                    </div>
+
+                                    <div>
+                                        <h6>Buat Periode Baru</h6>
+                                        <form id="formCreateOpname">
                                             <div class="mb-3">
-                                                <label class="form-label">NAMPAN<span
-                                                        class="text-danger ms-1">*</span></label>
-                                                <select class="select" name="nampan" id="nampan">
-                                                </select>
+                                                <label for="periode" class="form-label">Periode</label>
+                                                <input type="month" class="form-control" id="periode" name="periode">
                                             </div>
-                                        </div>
-                                        <div id="liststokopname">
-                                        </div>
+                                            <div class="d-grid mb-2">
+                                                <button type="submit" class="btn btn-secondary">Create</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="settings-page-wrap">
                             <form action="general-settings.html">
                                 <div class="setting-title">
@@ -149,6 +168,18 @@
         </div>
     </div>
 
+    <style>
+        #list-so {
+            height: 250px;
+            /* atau pakai min-height: 250px untuk lebih fleksibel */
+            overflow-y: auto;
+        }
+
+        .list-placeholder {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/pages/stok/stokopname.js') }}"></script>
 @endsection
